@@ -1,3 +1,4 @@
+import time
 from datetime import date
 from django.views.generic import CreateView, TemplateView
 from django.contrib.auth.views import LoginView, LogoutView
@@ -30,9 +31,28 @@ class UserLoginView(LoginView):
     template_name = "accounts/login.html"
     redirect_authenticated_user = True
 
+    def dispatch(self, request, *args, **kwargs):
+        lock_until = request.session.get("login_locked_until", 0)
+        now = time.time()
+        if lock_until and now < lock_until:
+            wait_sec = int(lock_until - now)
+            messages.error(request, f"Xavfsizlik: Ko'p marta xato urinishlar aniqlandi. Iltimos, {wait_sec} soniyadan keyin qayta urining.")
+            return self.render_to_response(self.get_context_data(form=self.get_form()))
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
+        self.request.session["login_failed_attempts"] = 0
+        self.request.session["login_locked_until"] = 0
         messages.success(self.request, f"Xush kelibsiz, {form.get_user().username}!")
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        attempts = self.request.session.get("login_failed_attempts", 0) + 1
+        self.request.session["login_failed_attempts"] = attempts
+        if attempts >= 5:
+            self.request.session["login_locked_until"] = time.time() + 300
+            messages.error(self.request, "Xavfsizlik: 5 marta xato parol kiritildi. Tizim 5 daqiqaga vaqtincha bloklandi.")
+        return super().form_invalid(form)
 
 
 class UserLogoutView(LogoutView):

@@ -1,6 +1,8 @@
 import json
 import random
+import time
 from datetime import date
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import DetailView, ListView, View, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -110,6 +112,9 @@ class QuizQuestionApiView(View):
                 "badge": letters[idx] if idx < len(letters) else str(idx + 1)
             })
 
+        sess["question_start_time"] = time.time()
+        request.session.modified = True
+
         return JsonResponse({
             "is_finished": False,
             "question_id": question.id,
@@ -149,6 +154,13 @@ class QuizAnswerApiView(View):
 
         if current_index >= len(question_ids) or question_ids[current_index] != question_id:
             return JsonResponse({"error": "Noto'g'ri savol ketma-ketligi"}, status=400)
+
+        start_time = sess.get("question_start_time")
+        if start_time and not settings.DEBUG and not getattr(settings, 'TESTING', False):
+            elapsed = time.time() - start_time
+            if elapsed < 0.35:
+                return JsonResponse({"error": "Javob berish tezligi g'ayritabiiy yuqori"}, status=400)
+        sess["question_start_time"] = None
 
         question = get_object_or_404(Question, id=question_id)
         choices = list(question.choices.all())
@@ -384,6 +396,13 @@ class DailyChallengeAnswerApiView(LoginRequiredMixin, View):
 
 class AiExplainApiView(LoginRequiredMixin, View):
     def get(self, request, question_id):
+        last_req = request.session.get("last_ai_time")
+        now = time.time()
+        if last_req and not settings.DEBUG and not getattr(settings, 'TESTING', False) and (now - last_req) < 2.0:
+            return JsonResponse({"error": "So'rovlar juda tez yuborilmoqda, iltimos kuting"}, status=429)
+        request.session["last_ai_time"] = now
+        request.session.modified = True
+
         question = get_object_or_404(
             Question.objects.prefetch_related("choices", "category"), id=question_id
         )

@@ -1,7 +1,11 @@
 import os
+import sys
 from pathlib import Path
 import dj_database_url
 from dotenv import load_dotenv
+
+TESTING = 'test' in sys.argv
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -11,18 +15,40 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-kpn@@&s$m$5ej6!!b^1we
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'django-quiz-pro.onrender.com',
+    '127.0.0.1',
+    'localhost',
+    'testserver',
+]
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
-if RENDER_EXTERNAL_HOSTNAME:
+if RENDER_EXTERNAL_HOSTNAME and RENDER_EXTERNAL_HOSTNAME not in ALLOWED_HOSTS:
     ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
+    'https://django-quiz-pro.onrender.com',
     'http://127.0.0.1:8000',
     'http://localhost:8000',
 ]
 if RENDER_EXTERNAL_HOSTNAME:
     CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_REFERRER_POLICY = 'same-origin'
+SESSION_COOKIE_HTTPONLY = True
+
+if not DEBUG and not TESTING:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
