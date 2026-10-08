@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}Django Quiz & Leaderboard — Django bilimingizni sinab ko'ring{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero-pill">
+    <span class="icon-svg">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2v7.5"/><path d="m14 17-2 5-2-5"/></svg>
+    </span>
+    <span>O'zbek tilidagi ilk interaktiv Django viktorinasi</span>
+  </div>
+  <h1 class="hero-headline">Django mahoratingizni sinovdan o'tkazing</h1>
+  <p class="hero-subtext">
+    Modellar, ORM so'rovlari, ko'rinishlar va xavfsizlik bo'yicha bilimlaringizni amalda sinang, ballar to'plang va umumiy reytingda yetakchi bo'ling.
+  </p>
+  <div class="hero-actions">
+    {% if user.is_authenticated %}
+      <a href="{% url 'accounts:dashboard' %}" class="btn btn-primary btn-lg">
+        <span>Boshlash</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    {% else %}
+      <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg">
+        <span>Boshlash</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    {% endif %}
+    <a href="{% url 'leaderboard:leaderboard' %}" class="btn btn-secondary btn-lg">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2v7.5"/><path d="m14 17-2 5-2-5"/></svg>
+      <span>Reytingni ko'rish</span>
+    </a>
+  </div>
+</section>
+
+<section style="margin-bottom: 4.5rem;">
+  <div class="section-header text-center">
+    <h2 class="section-title">Ommabop kategoriyalar</h2>
+    <p class="section-subtitle">O'zingizga qiziq bo'lgan yo'nalishni tanlang va testni boshlang</p>
+  </div>
+
+  <div class="category-grid">
+    {% for cat in categories %}
+      <a href="{% url 'quiz:category_detail' slug=cat.slug %}" class="glass-panel category-card">
+        <div>
+          <div class="category-icon-wrapper">
+            <span class="icon-box">{{ cat.svg_icon }}</span>
+          </div>
+          <h3 class="category-title">{{ cat.name }}</h3>
+          <p class="category-desc">{{ cat.description|truncatewords:14 }}</p>
+        </div>
+        <div class="category-meta">
+          <span>{{ cat.questions.count }} ta savol</span>
+          <span style="display: inline-flex; align-items: center; gap: 0.35rem;">
+            Boshlash
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </span>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section style="margin-bottom: 4.5rem;">
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+    <div class="glass-panel" style="padding: 2rem; border-color: rgba(255, 209, 102, 0.35); background: linear-gradient(135deg, rgba(255, 209, 102, 0.08), rgba(15, 12, 41, 0.6));">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <span class="pill" style="background: rgba(255, 209, 102, 0.2); color: var(--gold); border-color: var(--gold); font-weight: 700;">
+          KUNLIK SAVOL
+        </span>
+        <span style="color: var(--accent); font-weight: 600; font-size: 0.85rem;">+5 BONUS BALL</span>
+      </div>
+      <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">Bugungi Django Savoli</h3>
+      <p style="margin-bottom: 1.5rem; font-size: 0.92rem;">Har kuni bitta sinov savoliga javob bering va umumiy reytingdagi o'rningizni oshiring.</p>
+      <a href="{% url 'quiz:daily_challenge' %}" class="btn btn-primary" style="width: 100%;">
+        <span>Savolga o'tish</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+
+    <div class="glass-panel" style="padding: 2rem; border-color: rgba(96, 165, 250, 0.35); background: linear-gradient(135deg, rgba(96, 165, 250, 0.08), rgba(15, 12, 41, 0.6));">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <span class="pill" style="background: rgba(96, 165, 250, 0.2); color: #93c5fd; border-color: #93c5fd; font-weight: 700;">
+          JONLI DUEL
+        </span>
+        <span style="color: #93c5fd; font-weight: 600; font-size: 0.85rem;">REAL-TIME</span>
+      </div>
+      <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: #ffffff;">1v1 Jonli Bellashuv</h3>
+      <p style="margin-bottom: 1.5rem; font-size: 0.92rem;">Do'stingiz bilan real vaqtda bir xil 5 ta savolda bellashing. Kim tez va to'g'ri topsa g'olib!</p>
+      <a href="{% url 'battle:lobby' %}" class="btn btn-secondary" style="width: 100%;">
+        <span>Bellashuvni boshlash</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section style="margin-bottom: 4.5rem;">
+  <div class="section-header text-center">
+    <h2 class="section-title">Qanday ishlaydi?</h2>
+    <p class="section-subtitle">Uch oddiy qadamda bilimingizni baholang va natijangizni e'lon qiling</p>
+  </div>
+
+  <div class="steps-grid">
+    <div class="glass-panel step-card">
+      <div class="step-header">
+        <div class="step-number">01</div>
+        <div class="icon-box" style="width: 40px; height: 40px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        </div>
+      </div>
+      <h3 class="step-title">Ro'yxatdan o'ting</h3>
+      <p>Bir necha soniyada o'z profilingizni oching yoki mavjud hisobingizga kiring.</p>
+    </div>
+
+    <div class="glass-panel step-card">
+      <div class="step-header">
+        <div class="step-number">02</div>
+        <div class="icon-box" style="width: 40px; height: 40px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        </div>
+      </div>
+      <h3 class="step-title">Kategoriya tanlang</h3>
+      <p>Modellar, ORM, CBV yoki Formalar kabi muhim mavzulardan birini tanlab testni boshlang.</p>
+    </div>
+
+    <div class="glass-panel step-card">
+      <div class="step-header">
+        <div class="step-number">03</div>
+        <div class="icon-box" style="width: 40px; height: 40px;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+      </div>
+      <h3 class="step-title">Ball to'plang</h3>
+      <p>Murakkab savollarga to'g'ri javob berib eng yuqori ballarni oling va reytingda ko'tariling.</p>
+    </div>
+  </div>
+</section>
+
+{% if top_scores %}
+<section style="margin-bottom: 3rem;">
+  <div class="section-header text-center">
+    <h2 class="section-title">Yetakchilar doskasi</h2>
+    <p class="section-subtitle">Eng yuqori ball to'plagan kuchli foydalanuvchilar</p>
+  </div>
+
+  <div class="glass-panel table-panel" style="max-width: 760px; margin: 0 auto 1.5rem;">
+    <table class="quiz-table">
+      <thead>
+        <tr>
+          <th style="width: 70px;">O'rin</th>
+          <th>Foydalanuvchi</th>
+          <th>Kategoriya</th>
+          <th style="text-align: right;">Ball</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for score_item in top_scores %}
+          <tr>
+            <td>
+              <span class="pill" style="{% if forloop.counter == 1 %}background: rgba(255, 209, 102, 0.2); color: var(--gold); border-color: var(--gold);{% elif forloop.counter == 2 %}background: rgba(203, 213, 225, 0.2); color: var(--silver);{% else %}background: rgba(251, 146, 60, 0.2); color: var(--bronze);{% endif %} font-weight: 700;">
+                #{{ forloop.counter }}
+              </span>
+            </td>
+            <td style="font-weight: 600; color: var(--text);">{{ score_item.user.username }}</td>
+            <td><span class="pill pill-medium">{{ score_item.category.name|default:"Umumiy" }}</span></td>
+            <td style="text-align: right; font-weight: 700; color: var(--accent);">{{ score_item.score }} ball</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div style="text-align: center;">
+    <a href="{% url 'leaderboard:leaderboard' %}" class="btn btn-secondary">
+      <span>To'liq reytingni ko'rish</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

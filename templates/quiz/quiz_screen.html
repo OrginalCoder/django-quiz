@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ category.name }} — Viktorina{% endblock %}
+
+{% block content %}
+<div class="quiz-wrapper" id="quizApp" data-category-slug="{{ category.slug }}">
+  
+  <div class="quiz-header-bar">
+    <div class="quiz-progress-section">
+      <div class="quiz-progress-meta">
+        <span>Savol: <strong id="progressText">1 / {{ total_questions }}</strong></span>
+        <span>Mavzu: <strong style="color: var(--text);">{{ category.name }}</strong></span>
+      </div>
+      <div class="quiz-progress-bar-bg">
+        <div class="quiz-progress-bar-fill" id="progressBarFill" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <div class="timer-container" title="Qolgan vaqt">
+      <svg class="timer-svg" viewBox="0 0 60 60">
+        <circle class="timer-circle-bg" cx="30" cy="30" r="25"></circle>
+        <circle class="timer-circle-progress" id="timerCircle" cx="30" cy="30" r="25"></circle>
+      </svg>
+      <span class="timer-text" id="timerText">30</span>
+    </div>
+  </div>
+
+  <div class="glass-panel quiz-card">
+    <div class="quiz-meta-row">
+      <div style="display: flex; align-items: center; gap: 0.6rem;">
+        <span class="pill pill-medium" id="difficultyPill"><span class="pill-dot"></span><span>O'rta</span></span>
+        <span class="pill" style="background: rgba(255,255,255,0.06); color: var(--text-dim);" id="pointsBadge">+2 ball</span>
+      </div>
+      <a href="{% url 'accounts:dashboard' %}" style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; color: var(--text-dim);" onclick="return confirm('Haqiqatan ham chiqmoqchimisiz? Natijangiz saqlanadi.');">
+        <span>Chiqish</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </a>
+    </div>
+
+    <h2 class="quiz-question-text" id="questionText">
+      Savol yuklanmoqda...
+    </h2>
+
+    <div id="codeSnippetBox" style="display: none; margin-bottom: 1.5rem;"></div>
+
+    <div class="choices-list" id="choicesContainer">
+      <div class="choice-item disabled">
+        <div class="choice-badge">...</div>
+        <span class="choice-text">Yuklanmoqda...</span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/quiz.js' %}"></script>
+<script src="{% static 'js/anti_cheat.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Turnir: {{ tournament.title }} — Django Quiz{% endblock %}
+
+{% block content %}
+<div style="max-width: 820px; margin: 1rem auto 3rem;" id="tournamentApp" data-tournament-id="{{ tournament.pk }}" data-duration-seconds="{{ duration_seconds }}">
+
+  <div class="glass-panel" style="padding: 1rem 1.5rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <span style="font-size: 0.8rem; color: var(--gold); font-weight: 700; text-transform: uppercase;">Turnir rejimi</span>
+      <h2 style="font-size: 1.15rem; color: #ffffff; margin: 0;">{{ tournament.title }}</h2>
+    </div>
+    <div style="display: flex; align-items: center; gap: 0.75rem; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); padding: 0.45rem 1rem; border-radius: 9999px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <span style="font-family: monospace; font-size: 1.15rem; font-weight: 700; color: #f87171;" id="countdownDisplay">--:--</span>
+    </div>
+  </div>
+
+  <div class="glass-panel quiz-card" style="padding: 2.25rem 2rem;">
+    <div class="quiz-header" style="margin-bottom: 1.5rem;">
+      <div class="quiz-meta-left">
+        <span class="pill pill-medium" id="tournamentDifficultyPill">
+          <span class="pill-dot"></span>
+          <span id="tournamentDifficultyText">O'rta</span>
+        </span>
+        <span class="quiz-points" id="tournamentPointsBadge">+2 ball</span>
+      </div>
+      <div style="font-size: 0.95rem; font-weight: 600; color: var(--text-dim);" id="tournamentProgressText">1 / 10</div>
+    </div>
+
+    <div class="progress-bar-container" style="margin-bottom: 2rem;">
+      <div class="progress-bar-fill" id="tournamentProgressBar" style="width: 10%;"></div>
+    </div>
+
+    <h2 class="quiz-question-text" id="tournamentQuestionText" style="margin-bottom: 1.25rem;">Savol yuklanmoqda...</h2>
+
+    <div id="tournamentCodeBox" style="display: none; margin-bottom: 1.5rem;"></div>
+
+    <div class="choices-list" id="tournamentChoicesContainer"></div>
+
+    <div style="margin-top: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem;">
+      <button type="button" class="btn btn-secondary" id="tournamentPrevBtn" style="display: none;">
+        Oldingi savol
+      </button>
+      <div style="margin-left: auto; display: flex; gap: 0.75rem;">
+        <button type="button" class="btn btn-primary" id="tournamentNextBtn">
+          Keyingi savol
+        </button>
+        <button type="button" class="btn btn-primary" id="tournamentFinishBtn" style="background: linear-gradient(135deg, #10b981, #059669); display: none;">
+          Turnirni yakunlash
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const questionsData = {{ questions_json|safe }};
+let currentIndex = 0;
+const userAnswers = {};
+let remainingSeconds = parseInt(document.getElementById("tournamentApp").dataset.durationSeconds, 10) || 900;
+let timerId = null;
+let isSubmitting = false;
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+}
+
+function startCountdown() {
+  const display = document.getElementById("countdownDisplay");
+  display.textContent = formatTime(remainingSeconds);
+
+  timerId = setInterval(() => {
+    remainingSeconds--;
+    display.textContent = formatTime(remainingSeconds);
+    if (remainingSeconds <= 0) {
+      clearInterval(timerId);
+      submitTournament();
+    }
+  }, 1000);
+}
+
+function renderCurrentQuestion() {
+  const q = questionsData[currentIndex];
+  if (!q) return;
+
+  document.getElementById("tournamentQuestionText").textContent = q.text;
+  document.getElementById("tournamentProgressText").textContent = `${currentIndex + 1} / ${questionsData.length}`;
+  document.getElementById("tournamentProgressBar").style.width = `${((currentIndex + 1) / questionsData.length) * 100}%`;
+  document.getElementById("tournamentDifficultyText").textContent = q.difficulty_display;
+  document.getElementById("tournamentDifficultyPill").className = `pill pill-${q.difficulty}`;
+  document.getElementById("tournamentPointsBadge").textContent = `+${q.points} ball`;
+
+  const codeBox = document.getElementById("tournamentCodeBox");
+  if (q.code_snippet) {
+    codeBox.style.display = "block";
+    let escaped = q.code_snippet.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    if (q.question_type === "code_fill") {
+      escaped = escaped.replace(/____/g, '<span id="tourBlank" style="background: rgba(108, 92, 231, 0.4); border-bottom: 2px solid var(--accent); padding: 0.1rem 0.5rem; border-radius: 4px; color: #ffd166; font-weight: bold;">____</span>');
+    }
+    codeBox.innerHTML = `
+      <div style="background: #0d1117; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden;">
+        <div style="background: #161b22; padding: 0.4rem 0.75rem; display: flex; align-items: center; gap: 0.4rem; border-bottom: 1px solid rgba(255,255,255,0.06);">
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #ff5f56; display: inline-block;"></span>
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #ffbd2e; display: inline-block;"></span>
+          <span style="width: 10px; height: 10px; border-radius: 50%; background: #27c93f; display: inline-block;"></span>
+          <span style="margin-left: 0.5rem; font-size: 0.75rem; color: #8b949e; font-family: monospace;">python / django</span>
+        </div>
+        <pre style="margin: 0; padding: 1rem 1.25rem; font-family: monospace; font-size: 0.92rem; line-height: 1.6; color: #c9d1d9; overflow-x: auto;"><code>${escaped}</code></pre>
+      </div>
+    `;
+  } else {
+    codeBox.style.display = "none";
+    codeBox.innerHTML = "";
+  }
+
+  const choicesContainer = document.getElementById("tournamentChoicesContainer");
+  choicesContainer.innerHTML = "";
+
+  q.choices.forEach(ch => {
+    const item = document.createElement("div");
+    item.className = "choice-item";
+    if (userAnswers[q.id] === ch.id) {
+      item.classList.add("selected");
+    }
+
+    item.innerHTML = `
+      <div class="choice-badge">${ch.badge}</div>
+      <span class="choice-text">${ch.text}</span>
+    `;
+
+    item.addEventListener("click", () => {
+      userAnswers[q.id] = ch.id;
+      choicesContainer.querySelectorAll(".choice-item").forEach(el => el.classList.remove("selected"));
+      item.classList.add("selected");
+      const blank = document.getElementById("tourBlank");
+      if (blank) blank.textContent = ch.text;
+    });
+
+    choicesContainer.appendChild(item);
+  });
+
+  document.getElementById("tournamentPrevBtn").style.display = currentIndex > 0 ? "inline-flex" : "none";
+  if (currentIndex === questionsData.length - 1) {
+    document.getElementById("tournamentNextBtn").style.display = "none";
+    document.getElementById("tournamentFinishBtn").style.display = "inline-flex";
+  } else {
+    document.getElementById("tournamentNextBtn").style.display = "inline-flex";
+    document.getElementById("tournamentFinishBtn").style.display = "none";
+  }
+}
+
+async function submitTournament() {
+  if (isSubmitting) return;
+  isSubmitting = true;
+  clearInterval(timerId);
+
+  const tournamentId = document.getElementById("tournamentApp").dataset.tournamentId;
+  const totalDuration = parseInt(document.getElementById("tournamentApp").dataset.durationSeconds, 10) || 900;
+  const timeSpent = totalDuration - remainingSeconds;
+
+  try {
+    const res = await fetch(`/tournaments/${tournamentId}/submit/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": getCsrfToken(),
+      },
+      body: JSON.stringify({
+        answers: userAnswers,
+        time_spent_seconds: timeSpent,
+      }),
+    });
+    const data = await res.json();
+    if (data.redirect_url) {
+      window.location.href = data.redirect_url;
+    } else {
+      window.location.reload();
+    }
+  } catch (err) {
+    alert("Natijalarni saqlashda xatolik yuz berdi. Sahifani qayta yuklang.");
+    isSubmitting = false;
+  }
+}
+
+function getCsrfToken() {
+  const name = "csrftoken=";
+  const decoded = decodeURIComponent(document.cookie);
+  const arr = decoded.split(";");
+  for (let i = 0; i < arr.length; i++) {
+    let c = arr[i].trim();
+    if (c.indexOf(name) === 0) return c.substring(name.length, c.length);
+  }
+  return "";
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("tournamentNextBtn").addEventListener("click", () => {
+    if (currentIndex < questionsData.length - 1) {
+      currentIndex++;
+      renderCurrentQuestion();
+    }
+  });
+
+  document.getElementById("tournamentPrevBtn").addEventListener("click", () => {
+    if (currentIndex > 0) {
+      currentIndex--;
+      renderCurrentQuestion();
+    }
+  });
+
+  document.getElementById("tournamentFinishBtn").addEventListener("click", () => {
+    if (confirm("Turnirni yakunlashga ishonchingiz komilmi?")) {
+      submitTournament();
+    }
+  });
+
+  startCountdown();
+  renderCurrentQuestion();
+});
+</script>
+
+<style>
+.choice-item.selected {
+  border-color: var(--accent);
+  background: rgba(108, 92, 231, 0.2);
+  box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+}
+</style>
+<script src="{% static 'js/anti_cheat.js' %}"></script>
+{% endblock %}

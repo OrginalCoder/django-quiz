@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Kategoriyalar — Django Quiz{% endblock %}
+
+{% block content %}
+<div class="section-header text-center" style="margin-bottom: 3rem;">
+  <span class="pill pill-medium" style="margin-bottom: 0.75rem;">
+    <span class="pill-dot"></span>
+    <span>Mavzular</span>
+  </span>
+  <h1 class="section-title">Barcha viktorina kategoriyalari</h1>
+  <p class="section-subtitle">O'zingiz qiziqqan mavzuni tanlang va Django bo'yicha bilimlaringizni sinab ko'ring</p>
+</div>
+
+<div class="category-grid">
+  {% for cat in categories %}
+    <div class="glass-panel category-card">
+      <div>
+        <div class="category-icon-wrapper">
+          <span class="icon-box">{{ cat.svg_icon }}</span>
+        </div>
+        <h3 class="category-title">{{ cat.name }}</h3>
+        <p class="category-desc">{{ cat.description }}</p>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1rem; display: flex; justify-content: space-between;">
+          <span>Savollar soni:</span>
+          <span style="color: var(--accent); font-weight: 600;">{{ cat.questions.count }} ta</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <a href="{% url 'quiz:category_detail' slug=cat.slug %}" class="btn btn-secondary btn-sm" style="flex: 1;">
+            Tafsilotlar
+          </a>
+          <a href="{% url 'quiz:quiz_screen' category_slug=cat.slug %}?restart=1" class="btn btn-primary btn-sm" style="flex: 1;">
+            Boshlash
+          </a>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <div class="glass-panel" style="grid-column: 1 / -1; padding: 3rem; text-align: center;">
+      <p>Hozircha kategoriyalar qo'shilmagan.</p>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

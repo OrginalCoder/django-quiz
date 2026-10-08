@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tournament.title }} — Django Quiz{% endblock %}
+
+{% block content %}
+<div style="max-width: 860px; margin: 1.5rem auto 3.5rem;">
+  <a href="{% url 'tournament:list' %}" style="display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.5rem;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    <span>Turnirlar ro'yxatiga qaytish</span>
+  </a>
+
+  <div class="glass-panel" style="padding: 2.5rem 2rem; border-color: rgba(168, 85, 247, 0.4); margin-bottom: 2rem;">
+    <span class="pill pill-easy" style="margin-bottom: 0.75rem;">
+      <span class="pill-dot"></span>
+      <span>{% if tournament.is_currently_running %}Hozir faol{% elif tournament.is_upcoming %}Kelgusi{% else %}Yakunlangan{% endif %}</span>
+    </span>
+
+    <h1 style="font-size: 1.8rem; margin-top: 0.25rem; color: #ffffff;">{{ tournament.title }}</h1>
+    <p style="color: var(--text-dim); line-height: 1.6; margin-bottom: 1.5rem;">{{ tournament.description }}</p>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px;">
+      <div>
+        <span style="font-size: 0.8rem; color: var(--text-dim); display: block;">Vaqt chegarasi:</span>
+        <strong style="color: #ffffff; font-size: 1.1rem;">{{ tournament.duration_minutes }} daqiqa</strong>
+      </div>
+      <div>
+        <span style="font-size: 0.8rem; color: var(--text-dim); display: block;">Savollar soni:</span>
+        <strong style="color: #ffffff; font-size: 1.1rem;">{{ tournament.questions.count }} ta</strong>
+      </div>
+      <div>
+        <span style="font-size: 0.8rem; color: var(--text-dim); display: block;">Sovrin:</span>
+        <strong style="color: var(--gold); font-size: 1.1rem;">{{ tournament.prize_title }}</strong>
+      </div>
+    </div>
+
+    {% if participation and participation.completed_at %}
+      <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 1rem 1.25rem; border-radius: 8px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <span style="color: var(--correct); font-weight: 700;">Siz ushbu turnirni yakunlagansiz!</span>
+          <div style="font-size: 0.9rem; color: #ffffff; margin-top: 0.25rem;">Natijangiz: {{ participation.score }} ball ({{ participation.correct_answers }}/{{ participation.total_questions }})</div>
+        </div>
+        <a href="{% url 'tournament:leaderboard' pk=tournament.pk %}" class="btn btn-secondary btn-sm">Reytingni ko'rish</a>
+      </div>
+    {% elif tournament.is_currently_running %}
+      <a href="{% url 'tournament:play' pk=tournament.pk %}" class="btn btn-primary btn-lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        <span>Turnirni boshlash</span>
+      </a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

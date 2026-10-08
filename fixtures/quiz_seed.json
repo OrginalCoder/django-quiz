@@ -1,0 +1,3138 @@
+[
+{
+  "model": "quiz.category",
+  "pk": 1,
+  "fields": {
+    "name": "Django Modellari va Migratsiyalar",
+    "slug": "django-models-migrations",
+    "icon": "📦",
+    "description": "Modellar tuzilishi, maydonlar turlari (CharField, ForeignKey, ManyToManyField), Meta klassi va makemigrations/migrate buyruqlari bo'yicha savollar."
+  }
+},
+{
+  "model": "quiz.category",
+  "pk": 2,
+  "fields": {
+    "name": "Django ORM va So'rovlar",
+    "slug": "django-orm-queries",
+    "icon": "🔍",
+    "description": "Filter, exclude, annotate, aggregate, select_related, prefetch_related va murakkab Q/F ob'ektlari."
+  }
+},
+{
+  "model": "quiz.category",
+  "pk": 3,
+  "fields": {
+    "name": "Django Ko'rinishlar va Autentifikatsiya",
+    "slug": "django-views-auth",
+    "icon": "🛡️",
+    "description": "Funksiya va klassga asoslangan ko'rinishlar (CBV), Login, Logout, Decorator va Mixinlar."
+  }
+},
+{
+  "model": "quiz.category",
+  "pk": 4,
+  "fields": {
+    "name": "Django Formalari va Validatsiya",
+    "slug": "django-forms-validation",
+    "icon": "📝",
+    "description": "ModelForm, Form, maydon validatsiyasi, clean() metodlari va xatoliklarni chiqarish."
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 1,
+  "fields": {
+    "category": 1,
+    "text": "Django modelida matn maydonining maksimal uzunligini belgilash uchun qaysi parametr majburiy hisoblanadi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 2,
+  "fields": {
+    "category": 1,
+    "text": "Yangi model yoki o'zgarishlar uchun migratsiya faylini yaratuvchi boshqaruv buyrug'i qaysi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 3,
+  "fields": {
+    "category": 1,
+    "text": "Bir modeldan boshqa modelga biriktirilgan ob'ekt o'chirilganda, bog'langan yozuvlar ham o'chib ketishi uchun on_delete ga nima beriladi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 4,
+  "fields": {
+    "category": 1,
+    "text": "Django modelining ob'ektlari string ko'rinishida qanday ifodalanishini aniqlovchi maxsus Python metodi qaysi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 5,
+  "fields": {
+    "category": 1,
+    "text": "Bir modelda bir nechta maydonlar kombinatsiyasining takrorlanmasligini ta'minlash uchun Meta klassida qaysi parametr ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 6,
+  "fields": {
+    "category": 1,
+    "text": "Ko'pdan-ko'pga (Many-to-Many) munosabatda qo'shimcha maydonlar (masalan, sana, rol) saqlash uchun qaysi parametr orqali o'rta model (intermediate table) ko'rsatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 7,
+  "fields": {
+    "category": 1,
+    "text": "Django modelida avtomatik ravishda yozuv yaratilgan vaqtni faqat bir marta belgilash uchun DateTimeField da nima ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 8,
+  "fields": {
+    "category": 1,
+    "text": "Baza jadvallarini yaratmasdan, faqat boshqa modellar uchun umumiy maydonlar shablonini beruvchi model qanday e'lon qilinadi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 9,
+  "fields": {
+    "category": 1,
+    "text": "Muayyan ilova migratsiyasini boshlang'ich (bo'sh) holatga qaytarish uchun qaysi buyruq qo'llaniladi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 10,
+  "fields": {
+    "category": 1,
+    "text": "Katta jadvallarda tez-tez qidiriladigan maydonlar uchun indeks yaratishning eng zamonaviy va tavsiya etilgan usuli qaysi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 11,
+  "fields": {
+    "category": 1,
+    "text": "Modelning get_absolute_url() metodi odatda nima maqsadda yoziladi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 12,
+  "fields": {
+    "category": 2,
+    "text": "Baza jadvalidagi barcha yozuvlarni QuerySet ko'rinishida olish uchun qaysi usul chaqiriladi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 13,
+  "fields": {
+    "category": 2,
+    "text": "Bitta aniq yozuvni topish uchun ishlatiladigan va topilmasa DoesNotExist xatoligini beruvchi metod qaysi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 14,
+  "fields": {
+    "category": 2,
+    "text": "Maydon qiymati berilgan satr bilan boshlanishini filtr qilish uchun qaysi lookup ishlatiladi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 15,
+  "fields": {
+    "category": 2,
+    "text": "Shartga mos kelmaydigan yozuvlarni olib tashlab saralash uchun qaysi metod qo'llaniladi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 16,
+  "fields": {
+    "category": 2,
+    "text": "ForeignKey munosabatida N+1 muammosini oldini olish uchun (SQL JOIN orqali) qaysi metod ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 17,
+  "fields": {
+    "category": 2,
+    "text": "Ko'pdan-ko'pga (ManyToManyField) yoki teskari ForeignKey bog'lanishida N+1 muammosini hal qilish uchun qaysi metod ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 18,
+  "fields": {
+    "category": 2,
+    "text": "Baza darajasida barcha yozuvlar bo'yicha umumiy o'rtacha yoki yig'indini (masalan, Avg, Sum) hisoblash uchun nima ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 19,
+  "fields": {
+    "category": 2,
+    "text": "Har bir yozuvga yangi hisoblangan maydon (masalan, unga tegishli izohlar soni) qo'shib olish uchun qaysi metod qo'llaniladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 20,
+  "fields": {
+    "category": 2,
+    "text": "ORM so'rovlarida murakkab mantiqiy OR (|) va NOT (~) shartlarini qo'llash uchun qaysi ob'ekt kerak?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 21,
+  "fields": {
+    "category": 2,
+    "text": "Baza darajasidagi maydon qiymatini xotiraga yuklamasdan to'g'ridan-to'g'ri o'zgartirish (masalan: ko'rishlar sonini +1 ga oshirish) uchun qaysi ob'ekt qo'llaniladi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 22,
+  "fields": {
+    "category": 2,
+    "text": "Katta hajmdagi yozuvlarni xotirani to'ldirmasdan qismlarga bo'lib ketma-ket qayta ishlash uchun qaysi QuerySet metodi ishlatiladi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 23,
+  "fields": {
+    "category": 3,
+    "text": "Faqat tizimga kirgan foydalanuvchilar kira olishi uchun Funksiyaga asoslangan ko'rinishga (FBV) qaysi dekorator qo'yiladi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 24,
+  "fields": {
+    "category": 3,
+    "text": "Klassga asoslangan ko'rinishda (CBV) faqat tizimga kirgan foydalanuvchilarga ruxsat berish uchun qaysi mixin voris olinadi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 25,
+  "fields": {
+    "category": 3,
+    "text": "Foydalanuvchini autentifikatsiya qilish uchun uning login va parolini tekshiruvchi funksiya qaysi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 26,
+  "fields": {
+    "category": 3,
+    "text": "Statik HTML sahifasini hech qanday ma'lumotlar bazasisiz ko'rsatish uchun qaysi standart CBV qulay?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 27,
+  "fields": {
+    "category": 3,
+    "text": "Baza yozuvlari ro'yxatini chiqarish va sahifalash (pagination) uchun qaysi generik CBV ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 28,
+  "fields": {
+    "category": 3,
+    "text": "Yagona ob'ekt ma'lumotlarini (masalan, bitta maqola sahifasini) ko'rsatish uchun qaysi CBV ishlatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 29,
+  "fields": {
+    "category": 3,
+    "text": "CreateView da forma muvaffaqiyatli saqlangandan so'ng yo'naltiriladigan URL qaysi xususiyat orqali beriladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 30,
+  "fields": {
+    "category": 3,
+    "text": "Foydalanuvchi huquqlarini (Permission) tekshirish uchun CBV da qaysi mixin qo'llaniladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 31,
+  "fields": {
+    "category": 3,
+    "text": "CBV da shablonga (template) qo'shimcha o'zgaruvchilar uzatish uchun qaysi metod qayta yoziladi (override qilinadi)?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 32,
+  "fields": {
+    "category": 3,
+    "text": "CSRF himoyasidan mustasno qilish uchun qaysi dekorator ishlatiladi (ehtiyotkorlik bilan qo'llanishi shart)?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 33,
+  "fields": {
+    "category": 3,
+    "text": "Foydalanuvchi o'ziga tegishli bo'lmagan ob'ektni tahrirlashini cheklash uchun qaysi metodda tekshiruv o'rnatiladi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 34,
+  "fields": {
+    "category": 4,
+    "text": "Mavjud Django modeliga asoslangan forma yaratish uchun qaysi klassdan voris olinadi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 35,
+  "fields": {
+    "category": 4,
+    "text": "HTML shablonida POST formasi yaratilganda xavfsizlik uchun qaysi teg kiritilishi shart?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 36,
+  "fields": {
+    "category": 4,
+    "text": "Forma yuborilgan barcha ma'lumotlar to'g'riligini tekshirish uchun ko'rinishda qaysi metod chaqiriladi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 37,
+  "fields": {
+    "category": 4,
+    "text": "Tekshiruvdan muvaffaqiyatli o'tgan tozalangan ma'lumotlar forma ob'ektining qaysi lug'atida saqlanadi?",
+    "difficulty": "easy"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 38,
+  "fields": {
+    "category": 4,
+    "text": "Muayyan bitta maydonni (masalan, 'email') maxsus qoida bo'yicha tekshirish uchun formaga qaysi metod yoziladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 39,
+  "fields": {
+    "category": 4,
+    "text": "Bir nechta maydonlarni bir-biriga bog'liq holda tekshirish uchun (masalan, ikkita parolni taqqoslash) qaysi metod override qilinadi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 40,
+  "fields": {
+    "category": 4,
+    "text": "ModelForm da modelning qaysi maydonlari formaga kiritilishini qayerda ko'rsatiladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 41,
+  "fields": {
+    "category": 4,
+    "text": "Forma validatsiyasida xatolik haqida xabar berish uchun qaysi istisno (exception) chaqiriladi?",
+    "difficulty": "medium"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 42,
+  "fields": {
+    "category": 4,
+    "text": "ModelForm da bazaga darhol saqlamasdan ob'ekt nusxasini olish uchun nima qilinadi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 43,
+  "fields": {
+    "category": 4,
+    "text": "Forma maydonining HTML da ko'rinishini (input type, css klass, placeholder) o'zgartirish uchun nima ishlatiladi?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.question",
+  "pk": 44,
+  "fields": {
+    "category": 4,
+    "text": "Fayl yoki rasm yuklaydigan formani qabul qilishda HTML form tagiga qaysi atribut qo'yilishi shart?",
+    "difficulty": "hard"
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 1,
+  "fields": {
+    "question": 1,
+    "text": "max_length",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 2,
+  "fields": {
+    "question": 1,
+    "text": "length",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 3,
+  "fields": {
+    "question": 1,
+    "text": "size",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 4,
+  "fields": {
+    "question": 1,
+    "text": "limit",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 5,
+  "fields": {
+    "question": 2,
+    "text": "python manage.py makemigrations",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 6,
+  "fields": {
+    "question": 2,
+    "text": "python manage.py migrate",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 7,
+  "fields": {
+    "question": 2,
+    "text": "python manage.py createmigrations",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 8,
+  "fields": {
+    "question": 2,
+    "text": "python manage.py initmigrations",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 9,
+  "fields": {
+    "question": 3,
+    "text": "models.CASCADE",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 10,
+  "fields": {
+    "question": 3,
+    "text": "models.PROTECT",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 11,
+  "fields": {
+    "question": 3,
+    "text": "models.SET_NULL",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 12,
+  "fields": {
+    "question": 3,
+    "text": "models.DO_NOTHING",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 13,
+  "fields": {
+    "question": 4,
+    "text": "__str__(self)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 14,
+  "fields": {
+    "question": 4,
+    "text": "__repr__(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 15,
+  "fields": {
+    "question": 4,
+    "text": "__unicode__(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 16,
+  "fields": {
+    "question": 4,
+    "text": "to_string(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 17,
+  "fields": {
+    "question": 5,
+    "text": "unique_together yoki UniqueConstraint",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 18,
+  "fields": {
+    "question": 5,
+    "text": "index_together",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 19,
+  "fields": {
+    "question": 5,
+    "text": "unique_fields",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 20,
+  "fields": {
+    "question": 5,
+    "text": "combined_unique",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 21,
+  "fields": {
+    "question": 6,
+    "text": "through",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 22,
+  "fields": {
+    "question": 6,
+    "text": "intermediate",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 23,
+  "fields": {
+    "question": 6,
+    "text": "bridge",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 24,
+  "fields": {
+    "question": 6,
+    "text": "via",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 25,
+  "fields": {
+    "question": 7,
+    "text": "auto_now_add=True",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 26,
+  "fields": {
+    "question": 7,
+    "text": "auto_now=True",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 27,
+  "fields": {
+    "question": 7,
+    "text": "default_time=True",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 28,
+  "fields": {
+    "question": 7,
+    "text": "created_now=True",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 29,
+  "fields": {
+    "question": 8,
+    "text": "Meta klassida abstract = True orqali",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 30,
+  "fields": {
+    "question": 8,
+    "text": "Meta klassida base = True orqali",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 31,
+  "fields": {
+    "question": 8,
+    "text": "Meta klassida template = True orqali",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 32,
+  "fields": {
+    "question": 8,
+    "text": "Model klassidan emas, AbstractModel dan voris olish orqali",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 33,
+  "fields": {
+    "question": 9,
+    "text": "python manage.py migrate <app_name> zero",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 34,
+  "fields": {
+    "question": 9,
+    "text": "python manage.py migrate <app_name> rollback",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 35,
+  "fields": {
+    "question": 9,
+    "text": "python manage.py makemigrations --undo",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 36,
+  "fields": {
+    "question": 9,
+    "text": "python manage.py reset <app_name>",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 37,
+  "fields": {
+    "question": 10,
+    "text": "Meta klassida indexes = [models.Index(fields=[...])] orqali",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 38,
+  "fields": {
+    "question": 10,
+    "text": "db_index=False qo'yish orqali",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 39,
+  "fields": {
+    "question": 10,
+    "text": "Meta klassida unique_together ishlatish orqali",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 40,
+  "fields": {
+    "question": 10,
+    "text": "views.py da IndexQuery ishlatish orqali",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 41,
+  "fields": {
+    "question": 11,
+    "text": "Ob'ektning to'liq havolasini reverse orqali qaytarish uchun",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 42,
+  "fields": {
+    "question": 11,
+    "text": "Faqat tashqi API manzilini ko'rsatish uchun",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 43,
+  "fields": {
+    "question": 11,
+    "text": "Modelning admin panelidagi URL manzilini o'chirish uchun",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 44,
+  "fields": {
+    "question": 11,
+    "text": "Statik fayllar joylashuvini ko'rsatish uchun",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 45,
+  "fields": {
+    "question": 12,
+    "text": "Model.objects.all()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 46,
+  "fields": {
+    "question": 12,
+    "text": "Model.objects.get()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 47,
+  "fields": {
+    "question": 12,
+    "text": "Model.objects.filter()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 48,
+  "fields": {
+    "question": 12,
+    "text": "Model.objects.fetch()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 49,
+  "fields": {
+    "question": 13,
+    "text": "Model.objects.get()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 50,
+  "fields": {
+    "question": 13,
+    "text": "Model.objects.find()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 51,
+  "fields": {
+    "question": 13,
+    "text": "Model.objects.first()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 52,
+  "fields": {
+    "question": 13,
+    "text": "Model.objects.single()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 53,
+  "fields": {
+    "question": 14,
+    "text": "field__startswith",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 54,
+  "fields": {
+    "question": 14,
+    "text": "field__has",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 55,
+  "fields": {
+    "question": 14,
+    "text": "field__contains_start",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 56,
+  "fields": {
+    "question": 14,
+    "text": "field__starts",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 57,
+  "fields": {
+    "question": 15,
+    "text": "Model.objects.exclude()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 58,
+  "fields": {
+    "question": 15,
+    "text": "Model.objects.remove()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 59,
+  "fields": {
+    "question": 15,
+    "text": "Model.objects.delete()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 60,
+  "fields": {
+    "question": 15,
+    "text": "Model.objects.without()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 61,
+  "fields": {
+    "question": 16,
+    "text": "select_related()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 62,
+  "fields": {
+    "question": 16,
+    "text": "prefetch_related()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 63,
+  "fields": {
+    "question": 16,
+    "text": "join_related()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 64,
+  "fields": {
+    "question": 16,
+    "text": "optimize_related()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 65,
+  "fields": {
+    "question": 17,
+    "text": "prefetch_related()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 66,
+  "fields": {
+    "question": 17,
+    "text": "select_related()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 67,
+  "fields": {
+    "question": 17,
+    "text": "join_tables()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 68,
+  "fields": {
+    "question": 17,
+    "text": "fetch_m2m()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 69,
+  "fields": {
+    "question": 18,
+    "text": "aggregate()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 70,
+  "fields": {
+    "question": 18,
+    "text": "annotate()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 71,
+  "fields": {
+    "question": 18,
+    "text": "accumulate()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 72,
+  "fields": {
+    "question": 18,
+    "text": "calculate()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 73,
+  "fields": {
+    "question": 19,
+    "text": "annotate()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 74,
+  "fields": {
+    "question": 19,
+    "text": "aggregate()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 75,
+  "fields": {
+    "question": 19,
+    "text": "append_fields()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 76,
+  "fields": {
+    "question": 19,
+    "text": "calculate_row()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 77,
+  "fields": {
+    "question": 20,
+    "text": "django.db.models.Q ob'ekti",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 78,
+  "fields": {
+    "question": 20,
+    "text": "django.db.models.F ob'ekti",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 79,
+  "fields": {
+    "question": 20,
+    "text": "django.db.models.Expression",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 80,
+  "fields": {
+    "question": 20,
+    "text": "django.db.models.FilterLogic",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 81,
+  "fields": {
+    "question": 21,
+    "text": "F() ob'ekti (masalan, views=F('views') + 1)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 82,
+  "fields": {
+    "question": 21,
+    "text": "Q() ob'ekti",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 83,
+  "fields": {
+    "question": 21,
+    "text": "Value() ob'ekti",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 84,
+  "fields": {
+    "question": 21,
+    "text": "Func() ob'ekti",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 85,
+  "fields": {
+    "question": 22,
+    "text": "iterator()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 86,
+  "fields": {
+    "question": 22,
+    "text": "chunks()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 87,
+  "fields": {
+    "question": 22,
+    "text": "batch()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 88,
+  "fields": {
+    "question": 22,
+    "text": "stream()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 89,
+  "fields": {
+    "question": 23,
+    "text": "@login_required",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 90,
+  "fields": {
+    "question": 23,
+    "text": "@auth_required",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 91,
+  "fields": {
+    "question": 23,
+    "text": "@is_authenticated",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 92,
+  "fields": {
+    "question": 23,
+    "text": "@user_logged_in",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 93,
+  "fields": {
+    "question": 24,
+    "text": "LoginRequiredMixin",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 94,
+  "fields": {
+    "question": 24,
+    "text": "AuthRequiredMixin",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 95,
+  "fields": {
+    "question": 24,
+    "text": "AuthenticatedOnlyMixin",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 96,
+  "fields": {
+    "question": 24,
+    "text": "UserAccessMixin",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 97,
+  "fields": {
+    "question": 25,
+    "text": "authenticate(request, username=..., password=...)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 98,
+  "fields": {
+    "question": 25,
+    "text": "check_user(username, password)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 99,
+  "fields": {
+    "question": 25,
+    "text": "verify_credentials(username, password)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 100,
+  "fields": {
+    "question": 25,
+    "text": "validate_login(username, password)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 101,
+  "fields": {
+    "question": 26,
+    "text": "TemplateView",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 102,
+  "fields": {
+    "question": 26,
+    "text": "View",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 103,
+  "fields": {
+    "question": 26,
+    "text": "RedirectView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 104,
+  "fields": {
+    "question": 26,
+    "text": "StaticView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 105,
+  "fields": {
+    "question": 27,
+    "text": "ListView",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 106,
+  "fields": {
+    "question": 27,
+    "text": "DetailView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 107,
+  "fields": {
+    "question": 27,
+    "text": "GridView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 108,
+  "fields": {
+    "question": 27,
+    "text": "TableQueryView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 109,
+  "fields": {
+    "question": 28,
+    "text": "DetailView",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 110,
+  "fields": {
+    "question": 28,
+    "text": "SingleObjectView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 111,
+  "fields": {
+    "question": 28,
+    "text": "ItemView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 112,
+  "fields": {
+    "question": 28,
+    "text": "OneView",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 113,
+  "fields": {
+    "question": 29,
+    "text": "success_url",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 114,
+  "fields": {
+    "question": 29,
+    "text": "redirect_url",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 115,
+  "fields": {
+    "question": 29,
+    "text": "target_url",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 116,
+  "fields": {
+    "question": 29,
+    "text": "next_url",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 117,
+  "fields": {
+    "question": 30,
+    "text": "PermissionRequiredMixin",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 118,
+  "fields": {
+    "question": 30,
+    "text": "RightsCheckMixin",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 119,
+  "fields": {
+    "question": 30,
+    "text": "HasPermissionMixin",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 120,
+  "fields": {
+    "question": 30,
+    "text": "RoleRequiredMixin",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 121,
+  "fields": {
+    "question": 31,
+    "text": "get_context_data(self, **kwargs)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 122,
+  "fields": {
+    "question": 31,
+    "text": "get_template_vars(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 123,
+  "fields": {
+    "question": 31,
+    "text": "render_context(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 124,
+  "fields": {
+    "question": 31,
+    "text": "add_context(self, context)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 125,
+  "fields": {
+    "question": 32,
+    "text": "@csrf_exempt",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 126,
+  "fields": {
+    "question": 32,
+    "text": "@no_csrf",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 127,
+  "fields": {
+    "question": 32,
+    "text": "@csrf_disable",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 128,
+  "fields": {
+    "question": 32,
+    "text": "@skip_csrf",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 129,
+  "fields": {
+    "question": 33,
+    "text": "get_object() yoki dispatch() metodida",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 130,
+  "fields": {
+    "question": 33,
+    "text": "get_queryset_only() metodida",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 131,
+  "fields": {
+    "question": 33,
+    "text": "validate_user_role() metodida",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 132,
+  "fields": {
+    "question": 33,
+    "text": "form_invalid() metodida",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 133,
+  "fields": {
+    "question": 34,
+    "text": "forms.ModelForm",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 134,
+  "fields": {
+    "question": 34,
+    "text": "forms.Form",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 135,
+  "fields": {
+    "question": 34,
+    "text": "forms.BaseModelForm",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 136,
+  "fields": {
+    "question": 34,
+    "text": "forms.AutoForm",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 137,
+  "fields": {
+    "question": 35,
+    "text": "{% csrf_token %}",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 138,
+  "fields": {
+    "question": 35,
+    "text": "{% token_security %}",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 139,
+  "fields": {
+    "question": 35,
+    "text": "{% secret_key %}",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 140,
+  "fields": {
+    "question": 35,
+    "text": "{% form_protect %}",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 141,
+  "fields": {
+    "question": 36,
+    "text": "form.is_valid()",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 142,
+  "fields": {
+    "question": 36,
+    "text": "form.validate()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 143,
+  "fields": {
+    "question": 36,
+    "text": "form.check()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 144,
+  "fields": {
+    "question": 36,
+    "text": "form.is_clean()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 145,
+  "fields": {
+    "question": 37,
+    "text": "form.cleaned_data",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 146,
+  "fields": {
+    "question": 37,
+    "text": "form.valid_data",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 147,
+  "fields": {
+    "question": 37,
+    "text": "form.clean_values",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 148,
+  "fields": {
+    "question": 37,
+    "text": "form.data_safe",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 149,
+  "fields": {
+    "question": 38,
+    "text": "clean_email(self)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 150,
+  "fields": {
+    "question": 38,
+    "text": "validate_email(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 151,
+  "fields": {
+    "question": 38,
+    "text": "check_email(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 152,
+  "fields": {
+    "question": 38,
+    "text": "verify_email(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 153,
+  "fields": {
+    "question": 39,
+    "text": "clean(self)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 154,
+  "fields": {
+    "question": 39,
+    "text": "validate_all(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 155,
+  "fields": {
+    "question": 39,
+    "text": "cross_validate(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 156,
+  "fields": {
+    "question": 39,
+    "text": "check_all_fields(self)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 157,
+  "fields": {
+    "question": 40,
+    "text": "Meta klassining fields parametrida",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 158,
+  "fields": {
+    "question": 40,
+    "text": "Form klassining visible_fields ro'yxatida",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 159,
+  "fields": {
+    "question": 40,
+    "text": "forms.ModelForm ning args qismida",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 160,
+  "fields": {
+    "question": 40,
+    "text": "views.py ning form_class parametrida",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 161,
+  "fields": {
+    "question": 41,
+    "text": "forms.ValidationError",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 162,
+  "fields": {
+    "question": 41,
+    "text": "forms.FormError",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 163,
+  "fields": {
+    "question": 41,
+    "text": "ValueError",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 164,
+  "fields": {
+    "question": 41,
+    "text": "forms.InvalidFieldError",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 165,
+  "fields": {
+    "question": 42,
+    "text": "form.save(commit=False)",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 166,
+  "fields": {
+    "question": 42,
+    "text": "form.save(delay=True)",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 167,
+  "fields": {
+    "question": 42,
+    "text": "form.instance_only()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 168,
+  "fields": {
+    "question": 42,
+    "text": "form.build_object()",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 169,
+  "fields": {
+    "question": 43,
+    "text": "widget parametri (masalan, forms.TextInput(attrs={...}))",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 170,
+  "fields": {
+    "question": 43,
+    "text": "renderer parametri",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 171,
+  "fields": {
+    "question": 43,
+    "text": "html_attributes parametri",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 172,
+  "fields": {
+    "question": 43,
+    "text": "view_style parametri",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 173,
+  "fields": {
+    "question": 44,
+    "text": "enctype=\"multipart/form-data\"",
+    "is_correct": true
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 174,
+  "fields": {
+    "question": 44,
+    "text": "enctype=\"application/octet-stream\"",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 175,
+  "fields": {
+    "question": 44,
+    "text": "upload=\"file\"",
+    "is_correct": false
+  }
+},
+{
+  "model": "quiz.choice",
+  "pk": 176,
+  "fields": {
+    "question": 44,
+    "text": "method=\"file\"",
+    "is_correct": false
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 1,
+  "fields": {
+    "user": 2,
+    "category": 1,
+    "score": 23,
+    "total_questions": 11,
+    "correct_answers": 10,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.007Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 2,
+  "fields": {
+    "user": 3,
+    "category": 2,
+    "score": 21,
+    "total_questions": 11,
+    "correct_answers": 9,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.010Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 3,
+  "fields": {
+    "user": 4,
+    "category": 3,
+    "score": 20,
+    "total_questions": 11,
+    "correct_answers": 9,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.013Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 4,
+  "fields": {
+    "user": 5,
+    "category": 4,
+    "score": 19,
+    "total_questions": 11,
+    "correct_answers": 8,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.016Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 5,
+  "fields": {
+    "user": 6,
+    "category": 1,
+    "score": 17,
+    "total_questions": 11,
+    "correct_answers": 8,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.020Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 6,
+  "fields": {
+    "user": 7,
+    "category": 2,
+    "score": 16,
+    "total_questions": 11,
+    "correct_answers": 7,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.023Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 7,
+  "fields": {
+    "user": 2,
+    "category": 3,
+    "score": 18,
+    "total_questions": 11,
+    "correct_answers": 8,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.026Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 8,
+  "fields": {
+    "user": 3,
+    "category": 4,
+    "score": 22,
+    "total_questions": 11,
+    "correct_answers": 10,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 0,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": false
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.029Z"
+  }
+},
+{
+  "model": "leaderboard.userscore",
+  "pk": 9,
+  "fields": {
+    "user": 1,
+    "category": 1,
+    "score": 25,
+    "total_questions": 11,
+    "correct_answers": 11,
+    "details": [
+      {
+        "question_text": "Namuna savol #1",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #2",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #3",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #4",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #5",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #6",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #7",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #8",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #9",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #10",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      },
+      {
+        "question_text": "Namuna savol #11",
+        "difficulty": "medium",
+        "difficulty_display": "O'rta",
+        "points": 2,
+        "points_earned": 2,
+        "selected_choice_text": "Tanlangan javob",
+        "correct_choice_text": "To'g'ri javob",
+        "is_correct": true
+      }
+    ],
+    "completed_at": "2026-10-07T19:14:54.031Z"
+  }
+}
+]

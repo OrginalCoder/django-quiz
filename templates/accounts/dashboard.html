@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+
+{% block title %}Shaxsiy kabinet — {{ user.username }}{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2.5rem;">
+  <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <span style="font-size: 0.85rem; color: var(--accent); font-weight: 700; letter-spacing: 0.5px;">SHAXSIY KABINET</span>
+      <h1 style="margin-top: 0.25rem;">Salom, {{ user.username }}!</h1>
+      <p>Bugungi Django bilim darajangiz va yangi natijalaringiz</p>
+    </div>
+    <div>
+      <a href="{% url 'quiz:category_list' %}" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Yangi test boshlash</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="glass-panel stat-card">
+    <div class="icon-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+    </div>
+    <div class="stat-info">
+      <span class="stat-label">Jami ball</span>
+      <span class="stat-value">{{ total_score }}</span>
+    </div>
+  </div>
+
+  <div class="glass-panel stat-card">
+    <div class="icon-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    </div>
+    <div class="stat-info">
+      <span class="stat-label">Yechilgan viktorinalar</span>
+      <span class="stat-value">{{ quizzes_completed }}</span>
+    </div>
+  </div>
+
+  <div class="glass-panel stat-card">
+    <div class="icon-box">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+    </div>
+    <div class="stat-info">
+      <span class="stat-label">O'rtacha foiz</span>
+      <span class="stat-value">{{ average_percentage }}%</span>
+    </div>
+  </div>
+</div>
+
+{% if unfinished_quiz %}
+<div class="resume-banner">
+  <div>
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem;">
+      <span class="icon-svg" style="color: var(--accent);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </span>
+      <h3 style="font-size: 1.25rem; color: #ffffff;">Tugallanmagan test mavjud</h3>
+    </div>
+    <p style="color: var(--text-dim); margin-bottom: 0;">
+      <strong>{{ unfinished_quiz.category.name }}</strong> — Siz {{ unfinished_quiz.current_step }}/{{ unfinished_quiz.total_questions }} savoldasiz.
+    </p>
+  </div>
+  <div>
+    <a href="{% url 'quiz:quiz_screen' category_slug=unfinished_quiz.slug %}" class="btn btn-primary">
+      <span>Davom ettirish</span>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+</div>
+{% endif %}
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem;">
+  <div class="glass-panel" style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-color: rgba(248, 113, 113, 0.3);">
+    <div>
+      <div style="font-size: 0.85rem; color: var(--wrong); font-weight: 700;">XATOLIKLAR BANKI</div>
+      <div style="font-size: 1.1rem; font-weight: 700; color: #ffffff;">{{ unresolved_mistakes_count }} ta xato savol</div>
+    </div>
+    <a href="{% url 'quiz:mistakes_list' %}" class="btn btn-secondary btn-sm">
+      Ko'rish
+    </a>
+  </div>
+
+  <div class="glass-panel" style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-color: rgba(255, 209, 102, 0.35);">
+    <div>
+      <div style="font-size: 0.85rem; color: var(--gold); font-weight: 700;">KUNLIK SAVOL</div>
+      <div style="font-size: 1.1rem; font-weight: 700; color: #ffffff;">
+        {% if today_attempt %}
+          {% if today_attempt.is_correct %}Yechildi (+5 ball){% else %}Urinildi (Xato){% endif %}
+        {% else %}
+          Yechilmagan (+5 ball)
+        {% endif %}
+      </div>
+    </div>
+    <a href="{% url 'quiz:daily_challenge' %}" class="btn btn-primary btn-sm">
+      O'tish
+    </a>
+  </div>
+
+  <div class="glass-panel" style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-color: rgba(96, 165, 250, 0.35);">
+    <div>
+      <div style="font-size: 0.85rem; color: #60a5fa; font-weight: 700;">1V1 BELLASHUV</div>
+      <div style="font-size: 1.1rem; font-weight: 700; color: #ffffff;">G'alabalar: {{ battles_won }} ta</div>
+    </div>
+    <a href="{% url 'battle:lobby' %}" class="btn btn-secondary btn-sm">
+      Bellashish
+    </a>
+  </div>
+
+  <div class="glass-panel" style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-color: rgba(168, 85, 247, 0.35);">
+    <div>
+      <div style="font-size: 0.85rem; color: #c084fc; font-weight: 700;">HAFTALIK TURNIR</div>
+      <div style="font-size: 1.1rem; font-weight: 700; color: #ffffff;">Sovrinli bellashuv</div>
+    </div>
+    <a href="{% url 'tournament:list' %}" class="btn btn-primary btn-sm">
+      Kirish
+    </a>
+  </div>
+</div>
+
+<section style="margin-bottom: 3.5rem;">
+  <div class="section-header" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <h2 class="section-title">Yutuqlar va Nishonlar</h2>
+      <p class="section-subtitle">O'zlashtirilgan marralar: {{ earned_badges_count }}/{{ badges_list|length }} ta nishon</p>
+    </div>
+    <span class="pill pill-easy">
+      <span class="pill-dot"></span>
+      <span>{{ earned_badges_count }} ta ochilgan</span>
+    </span>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;">
+    {% for item in badges_list %}
+      <div class="glass-panel" style="padding: 1.5rem; text-align: center; border-radius: var(--radius-md); {% if not item.is_unlocked %}opacity: 0.55; filter: grayscale(80%);{% else %}border-color: rgba(255, 209, 102, 0.4); box-shadow: 0 0 25px rgba(255, 209, 102, 0.08);{% endif %}">
+        <div style="width: 56px; height: 56px; margin: 0 auto 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: {% if item.is_unlocked %}rgba(255, 209, 102, 0.15){% else %}rgba(255, 255, 255, 0.05){% endif %}; color: {% if item.is_unlocked %}var(--gold){% else %}var(--text-dim){% endif %};">
+          {{ item.badge.icon_svg|safe }}
+        </div>
+        <h4 style="font-size: 1rem; font-weight: 700; color: #ffffff; margin-bottom: 0.35rem;">{{ item.badge.name }}</h4>
+        <p style="font-size: 0.8rem; color: var(--text-dim); line-height: 1.4; margin-bottom: 0.75rem;">{{ item.badge.description }}</p>
+        <div style="font-size: 0.75rem;">
+          {% if item.is_unlocked %}
+            <span style="color: var(--correct); font-weight: 600;">Ochilgan: {{ item.earned_at|date:"d.m.Y" }}</span>
+          {% else %}
+            <span style="color: var(--text-dim);">Mukofot: +{{ item.badge.points_reward }} ball</span>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section style="margin-bottom: 3.5rem;">
+  <div class="section-header">
+    <h2 class="section-title">Kategoriyalar bo'yicha natijalar</h2>
+    <p class="section-subtitle">Har bir mavzu bo'yicha savollar soni va erishilgan natijangiz</p>
+  </div>
+
+  <div class="category-grid">
+    {% for item in categories_data %}
+      <div class="glass-panel category-card">
+        <div>
+          <div class="category-icon-wrapper">
+            <span class="icon-box">{{ item.category.svg_icon }}</span>
+          </div>
+          <h3 class="category-title">{{ item.category.name }}</h3>
+          <p class="category-desc">{{ item.category.description|truncatewords:12 }}</p>
+        </div>
+
+        <div style="margin-top: 1rem;">
+          <div style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 0.75rem; display: flex; justify-content: space-between;">
+            <span>Jami: {{ item.question_count }} ta savol</span>
+            {% if item.completed_count > 0 %}
+              <span style="color: var(--correct); font-weight: 600;">Eng yaxshi: {{ item.best_score }} ball</span>
+            {% else %}
+              <span style="color: var(--text-dim);">Hali topshirilmagan</span>
+            {% endif %}
+          </div>
+
+          <div style="display: flex; gap: 0.5rem;">
+            <a href="{% url 'quiz:category_detail' slug=item.category.slug %}" class="btn btn-secondary btn-sm" style="flex: 1;">
+              Batafsil
+            </a>
+            <a href="{% url 'quiz:quiz_screen' category_slug=item.category.slug %}?restart=1" class="btn btn-primary btn-sm" style="flex: 1;">
+              Boshlash
+            </a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+<section>
+  <div class="section-header">
+    <h2 class="section-title">So'nggi faollik</h2>
+    <p class="section-subtitle">Yaqinda yakunlangan viktorinalar ro'yxati</p>
+  </div>
+
+  {% if recent_activity %}
+    <div class="glass-panel table-panel">
+      <table class="quiz-table">
+        <thead>
+          <tr>
+            <th>Sana</th>
+            <th>Kategoriya</th>
+            <th>Natija</th>
+            <th>Foiz</th>
+            <th style="text-align: right;">Batafsil</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for activity in recent_activity %}
+            <tr>
+              <td style="color: var(--text-dim); font-size: 0.88rem;">{{ activity.completed_at|date:"d.m.Y H:i" }}</td>
+              <td style="font-weight: 600; color: var(--text);">{{ activity.category.name|default:"Umumiy" }}</td>
+              <td><span style="color: var(--accent); font-weight: 700;">{{ activity.score }} ball</span> ({{ activity.correct_answers }}/{{ activity.total_questions }})</td>
+              <td>
+                <span class="pill {% if activity.percentage >= 80 %}pill-easy{% elif activity.percentage >= 50 %}pill-medium{% else %}pill-hard{% endif %}">
+                  <span class="pill-dot"></span>
+                  <span>{{ activity.percentage }}%</span>
+                </span>
+              </td>
+              <td style="text-align: right;">
+                <a href="{% url 'leaderboard:result' score_id=activity.id %}" class="btn btn-secondary btn-sm">
+                  Ko'rish
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="glass-panel" style="padding: 2.5rem; text-align: center;">
+      <p style="margin-bottom: 1.25rem;">Sizda hali yakunlangan viktorinalar mavjud emas.</p>
+      <a href="{% url 'quiz:category_list' %}" class="btn btn-primary">Birinchi testni boshlash</a>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,293 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Bellashuv {{ room.room_code }} — Django Quiz{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 1rem auto 3rem;" id="battleApp" data-room-code="{{ room.room_code }}">
+
+  <div class="glass-panel" style="padding: 1.25rem 1.75rem; margin-bottom: 1.5rem;">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;">
+      
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <div class="avatar-circle" style="background: linear-gradient(135deg, #10b981, #059669);" id="myAvatar">
+          {{ user.username|first|upper }}
+        </div>
+        <div>
+          <div style="font-weight: 700; color: #ffffff;">{{ user.username }} (Siz)</div>
+          <div style="font-size: 0.85rem; color: var(--correct); font-weight: 600;">
+            <span id="myScoreText">0</span> ball | <span id="myProgressText">0</span>/5
+          </div>
+        </div>
+      </div>
+
+      <div style="font-family: 'Poppins', sans-serif; font-size: 1.4rem; font-weight: 800; color: var(--accent);">
+        VS
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem; text-align: right;">
+        <div>
+          <div style="font-weight: 700; color: #ffffff;" id="enemyName">
+            {% if is_creator %}
+              {{ room.opponent.username|default:"Raqib kutilmoqda..." }}
+            {% else %}
+              {{ room.creator.username }}
+            {% endif %}
+          </div>
+          <div style="font-size: 0.85rem; color: var(--wrong); font-weight: 600;">
+            <span id="enemyScoreText">0</span> ball | <span id="enemyProgressText">0</span>/5
+          </div>
+        </div>
+        <div class="avatar-circle" style="background: linear-gradient(135deg, #ef4444, #b91c1c);" id="enemyAvatar">
+          {% if is_creator and room.opponent %}
+            {{ room.opponent.username|first|upper }}
+          {% elif not is_creator %}
+            {{ room.creator.username|first|upper }}
+          {% else %}
+            ?
+          {% endif %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="waitingScreen" class="glass-panel" style="padding: 3rem 2rem; text-align: center; {% if room.status != 'waiting' %}display: none;{% endif %}">
+    <div class="icon-box icon-box-lg" style="margin: 0 auto 1.5rem; color: var(--accent);">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    </div>
+    <h2 style="margin-bottom: 0.5rem;">Raqib ulanishi kutilmoqda...</h2>
+    <p style="max-width: 500px; margin: 0 auto 1.75rem;">
+      Ushbu havola orqali do'stingizni bellashuvga taklif qiling. U kirishi bilan bellashuv boshlanadi!
+    </p>
+
+    <div style="display: flex; max-width: 480px; margin: 0 auto 1.5rem; gap: 0.5rem;">
+      <input type="text" class="form-input" id="shareUrlInput" value="{{ request.build_absolute_uri }}" readonly style="background: rgba(255, 255, 255, 0.08);">
+      <button type="button" class="btn btn-primary" id="copyUrlBtn">
+        Nusxalash
+      </button>
+    </div>
+    <span id="copySuccessMsg" style="font-size: 0.85rem; color: var(--correct); display: none;">Havola nusxalandi!</span>
+  </div>
+
+  <div id="gameScreen" class="glass-panel quiz-card" style="{% if room.status == 'waiting' or room.status == 'finished' %}display: none;{% endif %}">
+    <div class="quiz-meta-row">
+      <span class="pill pill-medium" id="battleDifficultyPill">O'rta</span>
+      <span class="pill" id="battlePointsBadge" style="background: rgba(255,255,255,0.06); color: var(--text-dim);">+2 ball</span>
+    </div>
+
+    <h2 class="quiz-question-text" id="battleQuestionText">
+      Savol yuklanmoqda...
+    </h2>
+
+    <div class="choices-list" id="battleChoicesContainer"></div>
+  </div>
+
+  <div id="finishedScreen" class="glass-panel result-card" style="{% if room.status != 'finished' %}display: none;{% endif %}">
+    <div id="finishedIconWrapper" style="font-size: 3rem; margin-bottom: 1rem;">
+      🏆
+    </div>
+    <h2 id="finishedTitle" style="font-size: 2rem; margin-bottom: 0.5rem;">Bellashuv yakunlandi</h2>
+    <p id="finishedSubtitle" class="result-message" style="margin-bottom: 2rem;"></p>
+
+    <div class="result-actions">
+      <a href="{% url 'battle:lobby' %}" class="btn btn-primary btn-lg">
+        Lobbyga qaytish
+      </a>
+      <a href="{% url 'leaderboard:leaderboard' %}" class="btn btn-secondary btn-lg">
+        Reytingni ko'rish
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const battleApp = document.getElementById("battleApp");
+  const roomCode = battleApp.dataset.roomCode;
+
+  const stateUrl = `/battle/room/${roomCode}/state/`;
+  const answerUrl = `/battle/room/${roomCode}/answer/`;
+
+  const waitingScreen = document.getElementById("waitingScreen");
+  const gameScreen = document.getElementById("gameScreen");
+  const finishedScreen = document.getElementById("finishedScreen");
+
+  const myScoreText = document.getElementById("myScoreText");
+  const myProgressText = document.getElementById("myProgressText");
+  const enemyName = document.getElementById("enemyName");
+  const enemyScoreText = document.getElementById("enemyScoreText");
+  const enemyProgressText = document.getElementById("enemyProgressText");
+  const enemyAvatar = document.getElementById("enemyAvatar");
+
+  const questionText = document.getElementById("battleQuestionText");
+  const choicesContainer = document.getElementById("battleChoicesContainer");
+  const pointsBadge = document.getElementById("battlePointsBadge");
+  const difficultyPill = document.getElementById("battleDifficultyPill");
+
+  const finishedTitle = document.getElementById("finishedTitle");
+  const finishedSubtitle = document.getElementById("finishedSubtitle");
+  const finishedIconWrapper = document.getElementById("finishedIconWrapper");
+
+  const copyUrlBtn = document.getElementById("copyUrlBtn");
+  const shareUrlInput = document.getElementById("shareUrlInput");
+  const copySuccessMsg = document.getElementById("copySuccessMsg");
+
+  if (copyUrlBtn && shareUrlInput) {
+    copyUrlBtn.addEventListener("click", () => {
+      navigator.clipboard.writeText(shareUrlInput.value).then(() => {
+        copySuccessMsg.style.display = "inline";
+        setTimeout(() => copySuccessMsg.style.display = "none", 2500);
+      });
+    });
+  }
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  let currentQuestionId = null;
+  let isSubmitting = false;
+  let pollInterval = null;
+  let currentRenderedIndex = -1;
+
+  async function fetchBattleState() {
+    try {
+      const res = await fetch(stateUrl);
+      const data = await res.json();
+
+      myScoreText.textContent = data.my_score;
+      myProgressText.textContent = data.my_progress;
+      enemyName.textContent = data.enemy_username;
+      enemyScoreText.textContent = data.enemy_score;
+      enemyProgressText.textContent = data.enemy_progress;
+      if (data.enemy_username && data.enemy_username !== "Kutilmoqda...") {
+        enemyAvatar.textContent = data.enemy_username.charAt(0).toUpperCase();
+      }
+
+      if (data.status === "waiting") {
+        waitingScreen.style.display = "block";
+        gameScreen.style.display = "none";
+        finishedScreen.style.display = "none";
+      } else if (data.status === "active") {
+        waitingScreen.style.display = "none";
+        finishedScreen.style.display = "none";
+
+        if (data.my_progress >= data.total_questions) {
+          gameScreen.style.display = "block";
+          questionText.textContent = "Siz barcha savollarga javob berdingiz! Raqibingiz yakunlashini kutmoqdasiz...";
+          choicesContainer.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--text-dim);">Iltimos, kuting...</div>';
+        } else if (data.current_question && data.my_progress !== currentRenderedIndex) {
+          gameScreen.style.display = "block";
+          renderQuestion(data.current_question, data.my_progress);
+        }
+      } else if (data.status === "finished") {
+        waitingScreen.style.display = "none";
+        gameScreen.style.display = "none";
+        finishedScreen.style.display = "block";
+        clearInterval(pollInterval);
+
+        if (data.winner === data.my_username) {
+          finishedTitle.textContent = "G'ALABA! 🎉";
+          finishedSubtitle.textContent = `Tabriklaymiz! Siz ${data.my_score} ball to'plab, raqibingizdan (${data.enemy_score} ball) ustun keldingiz!`;
+          finishedIconWrapper.innerHTML = '👑';
+          if (typeof confetti === "function") {
+            confetti({ particleCount: 100, spread: 80, origin: { y: 0.6 } });
+          }
+        } else if (data.winner === "Durang") {
+          finishedTitle.textContent = "DURANG! 🤝";
+          finishedSubtitle.textContent = `Ikkala ishtirokchi ham bir xil ${data.my_score} ball to'plashdi. Ajoyib bellashuv!`;
+          finishedIconWrapper.innerHTML = '⚖️';
+        } else {
+          finishedTitle.textContent = "MAG'LUBIYAT 😔";
+          finishedSubtitle.textContent = `Raqibingiz ${data.enemy_score} ball to'pladi, sizning natijangiz: ${data.my_score} ball. Keyingi safar albatta g'alaba qozonasiz!`;
+          finishedIconWrapper.innerHTML = '🛡️';
+        }
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  function renderQuestion(q, progressIndex) {
+    currentRenderedIndex = progressIndex;
+    currentQuestionId = q.id;
+    isSubmitting = false;
+
+    questionText.textContent = q.text;
+    pointsBadge.textContent = `+${q.points} ball`;
+    difficultyPill.textContent = q.difficulty_display;
+
+    choicesContainer.innerHTML = "";
+    q.choices.forEach(ch => {
+      const el = document.createElement("div");
+      el.className = "choice-item";
+      el.innerHTML = `
+        <div class="choice-badge">${ch.badge}</div>
+        <span class="choice-text">${ch.text}</span>
+      `;
+      el.addEventListener("click", () => submitAnswer(ch.id, el));
+      choicesContainer.appendChild(el);
+    });
+  }
+
+  async function submitAnswer(choiceId, selectedEl) {
+    if (isSubmitting) return;
+    isSubmitting = true;
+
+    const all = choicesContainer.querySelectorAll(".choice-item");
+    all.forEach(el => el.classList.add("disabled"));
+
+    try {
+      const res = await fetch(answerUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken")
+        },
+        body: JSON.stringify({
+          question_id: currentQuestionId,
+          choice_id: choiceId
+        })
+      });
+      const data = await res.json();
+
+      if (data.is_correct) {
+        selectedEl.classList.add("correct");
+      } else {
+        selectedEl.classList.add("wrong");
+      }
+
+      setTimeout(() => {
+        fetchBattleState();
+      }, 700);
+    } catch (err) {
+      console.error(err);
+      isSubmitting = false;
+    }
+  }
+
+  fetchBattleState();
+  pollInterval = setInterval(fetchBattleState, 1200);
+});
+</script>
+<script src="{% static 'js/anti_cheat.js' %}"></script>
+{% endblock %}

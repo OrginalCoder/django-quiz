@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Haftalik Django Turnirlari — Django Quiz{% endblock %}
+
+{% block content %}
+<div style="max-width: 960px; margin: 1.5rem auto 3.5rem;">
+  
+  <div class="section-header text-center" style="margin-bottom: 2.5rem;">
+    <span class="pill pill-easy" style="margin-bottom: 0.75rem;">
+      <span class="pill-dot"></span>
+      <span>Haftalik Django Ligasi</span>
+    </span>
+    <h1 class="section-title">Django Chempionati va Turnirlari</h1>
+    <p class="section-subtitle">Eng iqtidorli dasturchilar bilan teng sharoitda bellashing, unvon va kuboklarga ega bo'ling</p>
+  </div>
+
+  <section style="margin-bottom: 3.5rem;">
+    <h2 style="font-size: 1.3rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: #ffffff;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Faol turnirlar
+    </h2>
+
+    {% if active_tournaments %}
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {% for t in active_tournaments %}
+          <div class="glass-panel" style="padding: 2rem; border-color: rgba(168, 85, 247, 0.4); box-shadow: 0 0 35px rgba(168, 85, 247, 0.12);">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+              <div>
+                <span class="pill pill-easy" style="margin-bottom: 0.5rem;">
+                  <span class="pill-dot"></span>
+                  <span>Jarayonda</span>
+                </span>
+                <h3 style="font-size: 1.4rem; color: #ffffff; margin-top: 0.25rem;">{{ t.title }}</h3>
+              </div>
+              <div style="text-align: right;">
+                <span style="font-size: 0.85rem; color: var(--gold); font-weight: 700; display: block;">MUKOFOT:</span>
+                <span style="font-size: 0.95rem; color: #ffffff; font-weight: 600;">{{ t.prize_title }}</span>
+              </div>
+            </div>
+
+            <p style="color: var(--text-dim); line-height: 1.6; margin-bottom: 1.5rem;">{{ t.description }}</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.75rem; background: rgba(255, 255, 255, 0.03); padding: 1rem 1.25rem; border-radius: 8px;">
+              <div>
+                <span style="font-size: 0.78rem; color: var(--text-dim); display: block;">Savollar soni:</span>
+                <strong style="color: #ffffff; font-size: 1rem;">{{ t.questions.count }} ta</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.78rem; color: var(--text-dim); display: block;">Ajratilgan vaqt:</span>
+                <strong style="color: #ffffff; font-size: 1rem;">{{ t.duration_minutes }} daqiqa</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.78rem; color: var(--text-dim); display: block;">Qatnashuvchilar:</span>
+                <strong style="color: #ffffff; font-size: 1rem;">{{ t.participants_count }} nafar</strong>
+              </div>
+              <div>
+                <span style="font-size: 0.78rem; color: var(--text-dim); display: block;">Tugash vaqti:</span>
+                <strong style="color: #ffffff; font-size: 1rem;">{{ t.end_date|date:"d.m.Y H:i" }}</strong>
+              </div>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+              <a href="{% url 'tournament:play' pk=t.pk %}" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Turnirda qatnashish</span>
+              </a>
+              <a href="{% url 'tournament:leaderboard' pk=t.pk %}" class="btn btn-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2v7.5"/><path d="m14 17-2 5-2-5"/></svg>
+                <span>Reyting jadvali</span>
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="glass-panel" style="padding: 2.5rem; text-align: center;">
+        <p style="color: var(--text-dim); margin-bottom: 0;">Ayni paytda faol turnir mavjud emas. Yangi haftalik turnir tez kunda e'lon qilinadi!</p>
+      </div>
+    {% endif %}
+  </section>
+
+  <section>
+    <h2 style="font-size: 1.3rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; color: #ffffff;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+      O'tgan va kelgusi turnirlar
+    </h2>
+
+    {% if past_tournaments %}
+      <div style="display: flex; flex-direction: column; gap: 1rem;">
+        {% for pt in past_tournaments %}
+          <div class="glass-panel" style="padding: 1.25rem 1.75rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h3 style="font-size: 1.1rem; color: #ffffff; margin-bottom: 0.25rem;">{{ pt.title }}</h3>
+              <span style="font-size: 0.85rem; color: var(--text-dim);">Yakunlangan: {{ pt.end_date|date:"d.m.Y" }} • {{ pt.participants_count }} nafar ishtirokchi</span>
+            </div>
+            <a href="{% url 'tournament:leaderboard' pk=pt.pk %}" class="btn btn-secondary btn-sm">
+              Natijalarni ko'rish
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="glass-panel" style="padding: 2rem; text-align: center;">
+        <p style="color: var(--text-dim); margin: 0;">Hozircha arxivlangan turnirlar mavjud emas.</p>
+      </div>
+    {% endif %}
+  </section>
+
+</div>
+{% endblock %}

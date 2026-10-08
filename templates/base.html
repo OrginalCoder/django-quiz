@@ -1,0 +1,151 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Django Quiz & Leaderboard{% endblock %}</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container nav-container">
+      <a href="{% url 'core:landing' %}" class="brand">
+        <span class="brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </span>
+        <span>Django Quiz</span>
+        <span class="brand-badge">PRO</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="{% url 'core:landing' %}" class="nav-link {% if request.resolver_match.url_name == 'landing' %}active{% endif %}">Bosh sahifa</a></li>
+        <li><a href="{% url 'quiz:category_list' %}" class="nav-link {% if 'category' in request.resolver_match.url_name %}active{% endif %}">Kategoriyalar</a></li>
+        <li><a href="{% url 'quiz:daily_challenge' %}" class="nav-link {% if 'daily' in request.resolver_match.url_name %}active{% endif %}">Kunlik savol</a></li>
+        <li><a href="{% url 'battle:lobby' %}" class="nav-link {% if 'battle' in request.resolver_match.app_name %}active{% endif %}">1v1 Bellashuv</a></li>
+        <li><a href="{% url 'tournament:list' %}" class="nav-link {% if 'tournament' in request.resolver_match.app_name %}active{% endif %}">Turnirlar</a></li>
+        <li><a href="{% url 'leaderboard:leaderboard' %}" class="nav-link {% if request.resolver_match.url_name == 'leaderboard' %}active{% endif %}">Reyting</a></li>
+      </ul>
+
+      <div class="nav-auth">
+        {% if user.is_authenticated %}
+          <div class="user-menu-wrapper">
+            <button class="user-dropdown-btn" id="userMenuBtn" type="button" aria-expanded="false" aria-label="Foydalanuvchi menyusi">
+              <span class="avatar-circle">{{ user.username|first|upper }}</span>
+              <span>{{ user.username }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div class="dropdown-menu" id="userDropdown">
+              <a href="{% url 'accounts:dashboard' %}" class="dropdown-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                Shaxsiy kabinet
+              </a>
+              <a href="{% url 'quiz:mistakes_list' %}" class="dropdown-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                Mening xatolarim
+              </a>
+              <div class="dropdown-divider"></div>
+              <form action="{% url 'accounts:logout' %}" method="post" style="margin: 0;">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item" style="width: 100%; background: none; border: none; cursor: pointer; text-align: left; font-family: inherit;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  Chiqish
+                </button>
+              </form>
+            </div>
+          </div>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="btn btn-secondary btn-sm">Kirish</a>
+          <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-sm">Ro'yxatdan o'tish</a>
+        {% endif %}
+      </div>
+
+      <button class="mobile-toggle-btn" id="mobileToggleBtn" type="button" aria-label="Menyu">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+
+      <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <a href="{% url 'core:landing' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'landing' %}active{% endif %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Bosh sahifa
+        </a>
+        <a href="{% url 'quiz:category_list' %}" class="mobile-nav-link {% if 'category' in request.resolver_match.url_name %}active{% endif %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          Kategoriyalar
+        </a>
+        <a href="{% url 'quiz:daily_challenge' %}" class="mobile-nav-link {% if 'daily' in request.resolver_match.url_name %}active{% endif %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+          Kunlik savol
+        </a>
+        <a href="{% url 'battle:lobby' %}" class="mobile-nav-link {% if 'battle' in request.resolver_match.app_name %}active{% endif %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          1v1 Bellashuv
+        </a>
+        <a href="{% url 'tournament:list' %}" class="mobile-nav-link {% if 'tournament' in request.resolver_match.app_name %}active{% endif %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+          Turnirlar
+        </a>
+        <a href="{% url 'leaderboard:leaderboard' %}" class="mobile-nav-link {% if request.resolver_match.url_name == 'leaderboard' %}active{% endif %}">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2v7.5"/><path d="m14 17-2 5-2-5"/></svg>
+          Reyting
+        </a>
+        <div class="dropdown-divider"></div>
+        {% if user.is_authenticated %}
+          <a href="{% url 'accounts:dashboard' %}" class="mobile-nav-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Shaxsiy kabinet ({{ user.username }})
+          </a>
+          <a href="{% url 'quiz:mistakes_list' %}" class="mobile-nav-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+            Mening xatolarim
+          </a>
+          <form action="{% url 'accounts:logout' %}" method="post" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="mobile-nav-link" style="width: 100%; border: none; cursor: pointer; text-align: left; font-family: inherit;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Chiqish
+            </button>
+          </form>
+        {% else %}
+          <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem;">
+            <a href="{% url 'accounts:login' %}" class="btn btn-secondary" style="flex: 1;">Kirish</a>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary" style="flex: 1;">Ro'yxatdan o'tish</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      {% if messages %}
+        <div class="messages-container">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags|default:'info' }}">
+              <span>{{ message }}</span>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>© {% now "Y" %} Django Quiz & Leaderboard. Django bilimlarini sinash va rivojlantirish platformasi.</p>
+    </div>
+  </footer>
+
+  <script src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

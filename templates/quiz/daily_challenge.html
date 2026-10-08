@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Kunlik Django Savoli — Django Quiz{% endblock %}
+
+{% block content %}
+<div style="max-width: 760px; margin: 1.5rem auto 3rem;">
+  <div class="section-header text-center" style="margin-bottom: 2.5rem;">
+    <span class="pill pill-medium" style="margin-bottom: 0.75rem;">
+      <span class="pill-dot"></span>
+      <span>Har kunlik maxsus sinov</span>
+    </span>
+    <h1 class="section-title">Bugungi Django Savoli</h1>
+    <p class="section-subtitle">Har kuni bitta qiziqarli savolga to'g'ri javob bering va +5 bonus ball qo'lga kiriting</p>
+  </div>
+
+  {% if challenge %}
+    <div class="glass-panel" style="padding: 2.25rem 2rem; border-color: rgba(255, 209, 102, 0.35); box-shadow: 0 0 35px var(--accent-glow);" id="dailyCard">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span class="pill pill-medium">{{ challenge.question.category.name }}</span>
+          <span class="pill pill-{{ challenge.question.difficulty }}"><span class="pill-dot"></span><span>{{ challenge.question.get_difficulty_display }}</span></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span class="pill" style="background: rgba(255, 209, 102, 0.2); color: var(--gold); font-weight: 700; border-color: var(--gold);">
+            +{{ challenge.bonus_points }} BONUS BALL
+          </span>
+          <span style="font-size: 0.85rem; color: var(--text-dim);">{{ challenge.date|date:"d.m.Y" }}</span>
+        </div>
+      </div>
+
+      <h2 style="font-size: 1.25rem; line-height: 1.6; color: #ffffff; margin-bottom: 2rem;">
+        {{ challenge.question.text }}
+      </h2>
+
+      {% if user.is_authenticated %}
+        {% if has_attempted %}
+          <div style="padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem; background: {% if user_attempt.is_correct %}rgba(74, 222, 128, 0.12){% else %}rgba(248, 113, 113, 0.12){% endif %}; border: 1px solid {% if user_attempt.is_correct %}var(--correct){% else %}var(--wrong){% endif %};">
+            <div style="font-weight: 700; font-size: 1.1rem; color: {% if user_attempt.is_correct %}var(--correct){% else %}var(--wrong){% endif %}; margin-bottom: 0.4rem;">
+              {% if user_attempt.is_correct %}
+                Ajoyib! Siz bugungi savolga to'g'ri javob berdingiz va +{{ challenge.bonus_points }} ball oldingiz!
+              {% else %}
+                Afsuski, javobingiz noto'g'ri bo'ldi. Ertangi savolda yana urinib ko'ring!
+              {% endif %}
+            </div>
+            <div style="font-size: 0.9rem; color: var(--text);">
+              Siz tanlagan variant: <strong>{{ user_attempt.selected_choice.text|default:"Javob berilmadi" }}</strong>
+            </div>
+          </div>
+        {% else %}
+          <div class="choices-list" id="dailyChoices">
+            {% for ch in choices %}
+              <div class="choice-item" data-choice-id="{{ ch.id }}" tabindex="0">
+                <div class="choice-badge">{{ ch.badge }}</div>
+                <span class="choice-text">{{ ch.text }}</span>
+              </div>
+            {% endfor %}
+          </div>
+          <div id="dailyFeedback" style="margin-top: 1.5rem; display: none;"></div>
+        {% endif %}
+      {% else %}
+        <div style="padding: 1.5rem; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--panel-border); border-radius: var(--radius-md); text-align: center;">
+          <p style="margin-bottom: 1rem; color: var(--text);">Ushbu savolga javob berish va +5 bonus ball to'plash uchun tizimga kiring:</p>
+          <div style="display: flex; justify-content: center; gap: 0.75rem;">
+            <a href="{% url 'accounts:login' %}?next={% url 'quiz:daily_challenge' %}" class="btn btn-secondary">Kirish</a>
+            <a href="{% url 'accounts:register' %}" class="btn btn-primary">Ro'yxatdan o'tish</a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="glass-panel" style="padding: 3rem 2rem; text-align: center;">
+      <p>Bugun uchun savol hali belgilanmadi.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const choices = document.querySelectorAll("#dailyChoices .choice-item");
+  const feedbackEl = document.getElementById("dailyFeedback");
+  let submitting = false;
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
+  choices.forEach((choice) => {
+    choice.addEventListener("click", async () => {
+      if (submitting) return;
+      submitting = true;
+
+      choices.forEach(c => c.classList.add("disabled"));
+      const choiceId = choice.dataset.choiceId;
+
+      try {
+        const res = await fetch("{% url 'quiz:daily_answer' %}", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken")
+          },
+          body: JSON.stringify({ choice_id: choiceId })
+        });
+        const data = await res.json();
+
+        if (data.is_correct) {
+          choice.classList.add("correct");
+          feedbackEl.innerHTML = `<div class="alert alert-success">Tabriklaymiz! To'g'ri javob topildi va sizga +${data.bonus_points} ball berildi!</div>`;
+        } else {
+          choice.classList.add("wrong");
+          const correctChoice = document.querySelector(`[data-choice-id="${data.correct_choice_id}"]`);
+          if (correctChoice) correctChoice.classList.add("correct");
+          feedbackEl.innerHTML = `<div class="alert alert-error">Afsuski javob noto'g'ri. To'g'ri javob yashil rang bilan ko'rsatildi. Ertangi savolni kutib qoling!</div>`;
+        }
+        feedbackEl.style.display = "block";
+      } catch (err) {
+        console.error(err);
+      }
+    });
+  });
+});
+</script>
+<script src="{% static 'js/anti_cheat.js' %}"></script>
+{% endblock %}

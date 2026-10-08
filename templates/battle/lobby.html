@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}1v1 Jonli Bellashuv — Django Quiz{% endblock %}
+
+{% block content %}
+<div style="max-width: 920px; margin: 1.5rem auto 3.5rem;">
+  
+  <div class="section-header text-center" style="margin-bottom: 2.5rem;">
+    <span class="pill pill-medium" style="margin-bottom: 0.75rem;">
+      <span class="pill-dot"></span>
+      <span>Real-time Battle</span>
+    </span>
+    <h1 class="section-title">1v1 Jonli Django Bellashuvi</h1>
+    <p class="section-subtitle">Boshqa talabalar bilan bir vaqtda 5 ta savol ustida bellashing va tezroq hamda to'g'ri yechib g'olib bo'ling</p>
+  </div>
+
+  <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-bottom: 2.5rem;">
+    <div class="glass-panel stat-card">
+      <div class="icon-box" style="color: var(--accent);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">Jami bellashuvlar</span>
+        <span class="stat-value">{{ total_battles }}</span>
+      </div>
+    </div>
+
+    <div class="glass-panel stat-card">
+      <div class="icon-box" style="color: var(--gold);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14v2H5v-2z"/></svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-label">G'alabalar</span>
+        <span class="stat-value" style="color: var(--gold);">{{ wins }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="glass-panel" style="padding: 2.25rem 2rem; margin-bottom: 3rem;">
+    <h2 style="font-size: 1.3rem; margin-bottom: 0.5rem;">Yangi bellashuv xonasi yaratish</h2>
+    <p style="margin-bottom: 1.5rem; font-size: 0.92rem;">Mavzuni tanlang va xona oching. So'ngra havolani do'stingizga yuboring.</p>
+
+    <form action="{% url 'battle:create' %}" method="post" style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      {% csrf_token %}
+      <div style="flex: 1; min-width: 240px;">
+        <select name="category_slug" class="form-input" style="background: rgba(255, 255, 255, 0.08); height: 100%;">
+          <option value="" style="background: #1f1a4a;">Barcha mavzulardan tasodifiy</option>
+          {% for cat in categories %}
+            <option value="{{ cat.slug }}" style="background: #1f1a4a;">{{ cat.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary btn-lg" style="flex-shrink: 0;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        <span>Xona yaratish</span>
+      </button>
+    </form>
+  </div>
+
+  {% if my_waiting_rooms %}
+    <div style="margin-bottom: 2.5rem;">
+      <h3 style="font-size: 1.15rem; margin-bottom: 1rem; color: var(--accent);">Siz yaratgan kutish xonalari</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        {% for r in my_waiting_rooms %}
+          <div class="glass-panel" style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; border-color: rgba(255, 209, 102, 0.3);">
+            <div>
+              <span class="pill pill-medium" style="margin-right: 0.5rem;">{{ r.room_code }}</span>
+              <span style="font-weight: 600; color: #ffffff;">{{ r.category.name|default:"Aralash mavzular" }}</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <a href="{% url 'battle:room' room_code=r.room_code %}" class="btn btn-primary btn-sm">
+                Xonaga kirish
+              </a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div style="margin-bottom: 3rem;">
+    <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">Ochiq bellashuvlar (Raqib kutayotgan xonalar)</h3>
+    {% if waiting_rooms %}
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        {% for room in waiting_rooms %}
+          <div class="glass-panel" style="padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div class="avatar-circle" style="width: 38px; height: 38px;">{{ room.creator.username|first|upper }}</div>
+              <div>
+                <div style="font-weight: 600; color: #ffffff;">{{ room.creator.username }}</div>
+                <div style="font-size: 0.82rem; color: var(--text-dim);">
+                  Mavzu: {{ room.category.name|default:"Aralash mavzular" }} ({{ room.room_code }})
+                </div>
+              </div>
+            </div>
+            <a href="{% url 'battle:room' room_code=room.room_code %}" class="btn btn-primary btn-sm">
+              Bellashuvga qo'shilish
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="glass-panel" style="padding: 2rem; text-align: center; color: var(--text-dim);">
+        Hozircha ochiq kutish xonalari yo'q. Yuqorida yangi xona yaratib do'stingizni taklif qiling!
+      </div>
+    {% endif %}
+  </div>
+
+  {% if recent_battles %}
+    <div>
+      <h3 style="font-size: 1.15rem; margin-bottom: 1rem;">So'nggi bellashuvlar natijalari</h3>
+      <div class="glass-panel table-panel">
+        <table class="quiz-table">
+          <thead>
+            <tr>
+              <th>Sana</th>
+              <th>Raqiblar</th>
+              <th>Hisob</th>
+              <th style="text-align: right;">Natija</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in recent_battles %}
+              <tr>
+                <td style="color: var(--text-dim); font-size: 0.85rem;">{{ b.created_at|date:"d.m.Y H:i" }}</td>
+                <td style="font-weight: 600;">
+                  {{ b.creator.username }} vs {{ b.opponent.username|default:"Noma'lum" }}
+                </td>
+                <td style="color: var(--accent); font-weight: 700;">
+                  {{ b.creator_score }} : {{ b.opponent_score }}
+                </td>
+                <td style="text-align: right;">
+                  {% if b.winner == user %}
+                    <span class="pill pill-easy">G'alaba</span>
+                  {% elif b.winner %}
+                    <span class="pill pill-hard">Mag'lubiyat</span>
+                  {% else %}
+                    <span class="pill pill-medium">Durang</span>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,217 @@
+{% extends "base.html" %}
+
+{% block title %}Natija — {{ score_record.score }} ball{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="glass-panel result-card">
+  
+  <span class="pill pill-medium" style="margin-bottom: 1.5rem;">
+    <span class="pill-dot"></span>
+    <span>{{ score_record.category.name|default:"Umumiy viktorina" }}</span>
+  </span>
+
+  <div class="result-score-circle">
+    <div class="result-score-number" id="scoreCounter" data-target="{{ score_record.score }}">0</div>
+    <div class="result-score-label">To'plangan ball</div>
+  </div>
+
+  <div class="result-percent" style="color: {% if percentage >= 80 %}var(--correct){% elif percentage >= 50 %}var(--accent){% else %}var(--wrong){% endif %};">
+    {{ percentage }}% to'g'ri javob ({{ score_record.correct_answers }} / {{ score_record.total_questions }})
+  </div>
+
+  <p class="result-message">
+    {{ feedback_message }}
+  </p>
+
+  <div class="result-actions">
+    {% if is_certificate_eligible %}
+      <a href="{% url 'leaderboard:download_certificate' score_id=score_record.id %}" class="btn btn-primary btn-lg" style="background: linear-gradient(135deg, #ffd166, #f59e0b); color: #121026; font-weight: 700; box-shadow: 0 0 25px var(--accent-glow);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        <span>Sertifikatni yuklab olish (PDF)</span>
+      </a>
+    {% endif %}
+    {% if score_record.category %}
+      <a href="{% url 'quiz:quiz_screen' category_slug=score_record.category.slug %}?restart=1" class="btn btn-secondary btn-lg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+        <span>Qayta urinish</span>
+      </a>
+    {% endif %}
+    <a href="{% url 'leaderboard:leaderboard' %}{% if score_record.category %}?category={{ score_record.category.slug }}{% endif %}" class="btn btn-secondary btn-lg">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"/><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"/><path d="M12 2v7.5"/><path d="m14 17-2 5-2-5"/></svg>
+      <span>Reytingga o'tish</span>
+    </a>
+  </div>
+
+  {% if answers_breakdown %}
+    <div class="breakdown-section">
+      <h3 class="breakdown-title">Savollar bo'yicha batafsil tahlil:</h3>
+      <div class="breakdown-list">
+        {% for item in answers_breakdown %}
+          <details class="breakdown-item">
+            <summary class="breakdown-summary">
+              <span class="breakdown-icon {% if item.is_correct %}corr{% else %}incorr{% endif %}">
+                {% if item.is_correct %}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                {% else %}
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                {% endif %}
+              </span>
+              <span class="breakdown-text">{{ item.question_text }}</span>
+              <span class="pill pill-{{ item.difficulty }}" style="font-size: 0.75rem; margin-left: 0.5rem;">
+                +{{ item.points_earned }}/{{ item.points }} ball
+              </span>
+            </summary>
+            <div class="breakdown-detail-body">
+              <div style="margin-bottom: 0.4rem;">
+                <strong style="color: var(--text);">Sizning javobingiz:</strong>
+                <span style="color: {% if item.is_correct %}var(--correct){% else %}var(--wrong){% endif %}; font-weight: 500;">
+                  {{ item.selected_choice_text }}
+                </span>
+              </div>
+              {% if not item.is_correct %}
+                <div>
+                  <strong style="color: var(--text);">To'g'ri javob:</strong>
+                  <span style="color: var(--correct); font-weight: 500;">{{ item.correct_choice_text }}</span>
+                </div>
+                {% if item.question_id %}
+                  <div style="margin-top: 0.6rem;">
+                    <button type="button" class="btn btn-secondary btn-sm ai-explain-btn" data-question-id="{{ item.question_id }}" style="font-size: 0.8rem; padding: 0.35rem 0.75rem; gap: 0.35rem; border-color: rgba(168, 85, 247, 0.4); color: #c084fc;">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                      AI tushuntirish
+                    </button>
+                  </div>
+                {% endif %}
+              {% endif %}
+            </div>
+          </details>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const counterEl = document.getElementById("scoreCounter");
+  const targetScore = parseInt(counterEl.dataset.target, 10) || 0;
+  const percentage = {{ percentage }};
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReducedMotion) {
+    counterEl.textContent = targetScore;
+  } else {
+    let current = 0;
+    const duration = 1200;
+    const stepTime = Math.max(Math.floor(duration / (targetScore || 1)), 25);
+
+    if (targetScore > 0) {
+      const timer = setInterval(() => {
+        current += 1;
+        counterEl.textContent = current;
+        if (current >= targetScore) {
+          counterEl.textContent = targetScore;
+          clearInterval(timer);
+        }
+      }, stepTime);
+    } else {
+      counterEl.textContent = 0;
+    }
+
+    if (percentage >= 80 && typeof confetti === "function") {
+      setTimeout(() => {
+        confetti({
+          particleCount: 90,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ['#ffd166', '#4ade80', '#60a5fa', '#f472b6']
+        });
+      }, 400);
+    }
+  }
+
+  const modal = document.getElementById("aiResultModal");
+  const closeBtn = document.getElementById("closeAiResultModalBtn");
+  const loadingEl = document.getElementById("aiResultLoading");
+  const contentEl = document.getElementById("aiResultContent");
+  const catEl = document.getElementById("aiResultCategory");
+  const qTextEl = document.getElementById("aiResultQuestionText");
+  const corrEl = document.getElementById("aiResultCorrectChoice");
+  const expEl = document.getElementById("aiResultExplanationText");
+
+  document.querySelectorAll(".ai-explain-btn").forEach(btn => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const qId = btn.dataset.questionId;
+      modal.style.display = "flex";
+      loadingEl.style.display = "block";
+      contentEl.style.display = "none";
+
+      try {
+        const res = await fetch(`/api/ai-explain/${qId}/`);
+        const data = await res.json();
+        if (data.success) {
+          catEl.textContent = `${data.category} • ${data.difficulty}`;
+          qTextEl.textContent = data.question_text;
+          corrEl.textContent = data.correct_choice;
+          expEl.textContent = data.explanation;
+          loadingEl.style.display = "none";
+          contentEl.style.display = "block";
+        }
+      } catch (err) {
+        loadingEl.innerHTML = `<p style="color: var(--wrong);">Tahlilni yuklab bo'lmadi.</p>`;
+      }
+    });
+  });
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+  }
+
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    });
+  }
+});
+</script>
+
+<div id="aiResultModal" style="display: none; position: fixed; inset: 0; background: rgba(10, 14, 23, 0.85); backdrop-filter: blur(8px); z-index: 9999; align-items: center; justify-content: center; padding: 1.5rem;">
+  <div class="glass-panel" style="max-width: 580px; width: 100%; border-color: rgba(168, 85, 247, 0.5); box-shadow: 0 0 40px rgba(168, 85, 247, 0.2); max-height: 90vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+      <div style="display: flex; align-items: center; gap: 0.5rem; color: #c084fc;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        <h3 style="margin: 0; font-size: 1.15rem; color: #ffffff;">AI Murabbiy tahlili</h3>
+      </div>
+      <button type="button" id="closeAiResultModalBtn" style="background: none; border: none; color: var(--text-dim); cursor: pointer; padding: 0.25rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+
+    <div id="aiResultLoading" style="text-align: center; padding: 2rem 0;">
+      <div style="width: 36px; height: 36px; border: 3px solid rgba(168, 85, 247, 0.2); border-top-color: #c084fc; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem;"></div>
+      <p style="color: var(--text-dim); font-size: 0.9rem;">Sun'iy intellekt tahlil qilmoqda...</p>
+    </div>
+
+    <div id="aiResultContent" style="display: none;">
+      <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 0.5rem;" id="aiResultCategory"></div>
+      <h4 style="font-size: 1rem; color: #ffffff; margin-bottom: 1rem;" id="aiResultQuestionText"></h4>
+      
+      <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem;">
+        <div style="font-size: 0.75rem; color: var(--correct); font-weight: 700; text-transform: uppercase;">To'g'ri javob:</div>
+        <div style="font-weight: 600; color: #ffffff;" id="aiResultCorrectChoice"></div>
+      </div>
+
+      <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.08); padding: 1rem; border-radius: 8px; line-height: 1.6; color: var(--text); font-size: 0.92rem;" id="aiResultExplanationText"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

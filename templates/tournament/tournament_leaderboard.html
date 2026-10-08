@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}{{ tournament.title }} — Reyting jadvali{% endblock %}
+
+{% block content %}
+<div style="max-width: 960px; margin: 1.5rem auto 3.5rem;">
+  
+  <a href="{% url 'tournament:list' %}" style="display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-dim); font-size: 0.9rem; margin-bottom: 1.5rem;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    <span>Turnirlar ro'yxatiga qaytish</span>
+  </a>
+
+  <div class="section-header text-center" style="margin-bottom: 2rem;">
+    <span class="pill pill-easy" style="margin-bottom: 0.75rem;">
+      <span class="pill-dot"></span>
+      <span>Turnir natijalari</span>
+    </span>
+    <h1 class="section-title">{{ tournament.title }}</h1>
+    <p class="section-subtitle">Sovrin: <strong style="color: var(--gold);">{{ tournament.prize_title }}</strong></p>
+  </div>
+
+  {% if my_participation %}
+    <div class="glass-panel" style="padding: 1.5rem 2rem; border-color: rgba(168, 85, 247, 0.4); margin-bottom: 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <span style="font-size: 0.82rem; color: #c084fc; font-weight: 700; text-transform: uppercase;">Sizning natijangiz</span>
+        <div style="font-size: 1.25rem; font-weight: 700; color: #ffffff; margin-top: 0.2rem;">
+          {{ my_rank }}-o'rin: {{ my_participation.score }} ball ({{ my_participation.correct_answers }}/{{ my_participation.total_questions }} to'g'ri)
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <span style="font-size: 0.82rem; color: var(--text-dim); display: block;">Sarflangan vaqt:</span>
+        <strong style="color: #ffffff; font-size: 1.1rem;">{{ my_participation.time_spent_seconds }} soniya</strong>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="glass-panel table-panel">
+    {% if participants %}
+      <table class="quiz-table">
+        <thead>
+          <tr>
+            <th style="width: 70px;">O'rin</th>
+            <th>Dasturchi</th>
+            <th>Ball</th>
+            <th>To'g'ri javoblar</th>
+            <th>Sarflangan vaqt</th>
+            <th style="text-align: right;">Vaqt</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in participants %}
+            <tr style="{% if request.user == p.user %}background: rgba(108, 92, 231, 0.12); font-weight: 600;{% endif %}">
+              <td>
+                {% if forloop.counter == 1 %}
+                  <span style="color: var(--gold); font-weight: 800; font-size: 1.1rem;">1 🥇</span>
+                {% elif forloop.counter == 2 %}
+                  <span style="color: #e2e8f0; font-weight: 800; font-size: 1.1rem;">2 🥈</span>
+                {% elif forloop.counter == 3 %}
+                  <span style="color: #cd7f32; font-weight: 800; font-size: 1.1rem;">3 🥉</span>
+                {% else %}
+                  <span style="color: var(--text-dim); font-weight: 600;">{{ forloop.counter }}</span>
+                {% endif %}
+              </td>
+              <td style="color: #ffffff; font-weight: 600;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span class="avatar-circle" style="width: 28px; height: 28px; font-size: 0.8rem;">{{ p.user.username|first|upper }}</span>
+                  <span>{{ p.user.username }}</span>
+                </div>
+              </td>
+              <td><span style="color: var(--accent); font-weight: 700;">{{ p.score }} ball</span></td>
+              <td>{{ p.correct_answers }} / {{ p.total_questions }}</td>
+              <td style="font-family: monospace; color: var(--text-dim);">{{ p.time_spent_seconds }}s</td>
+              <td style="text-align: right; color: var(--text-dim); font-size: 0.85rem;">{{ p.completed_at|date:"d.m H:i" }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div style="padding: 3rem 2rem; text-align: center;">
+        <p style="color: var(--text-dim); margin: 0;">Hozircha ushbu turnirda hech kim qatnashmagan. Birinchi bo'lib boshlang!</p>
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+{% endblock %}

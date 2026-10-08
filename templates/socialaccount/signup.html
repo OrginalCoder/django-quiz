@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Ro'yxatdan o'tishni yakunlash — Django Quiz{% endblock %}
+
+{% block content %}
+<div class="glass-panel form-card" style="max-width: 520px; margin: 2.5rem auto;">
+  <div class="form-header">
+    <div class="icon-box icon-box-lg" style="margin: 0 auto 1rem; color: var(--accent);">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+    </div>
+    <h2>Yakuniy qadam</h2>
+    <p>Google orqali kirishni yakunlash uchun ma'lumotlaringizni tasdiqlang</p>
+  </div>
+
+  <form method="post" action="{% url 'socialaccount_signup' %}">
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-error" style="margin-bottom: 1.25rem;">
+        {% for error in form.non_field_errors %}
+          <div>{{ error }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% for field in form %}
+      <div class="form-group">
+        <label class="form-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <span class="form-error">{{ field.errors.0 }}</span>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1.25rem;">
+      Ro'yxatdan o'tishni yakunlash
+    </button>
+  </form>
+</div>
+{% endblock %}
