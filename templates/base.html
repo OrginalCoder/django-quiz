@@ -6,6 +6,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Django Quiz & Leaderboard{% endblock %}</title>
   
+  <meta name="description" content="{% block meta_description %}Django Quiz PRO — Python va Django bo'yicha bilimlaringizni sinash, 1v1 PvP bellashuvlar, haftalik turnirlar va sun'iy intellekt tahlili bilan interaktiv test platformasi.{% endblock %}">
+  <meta name="keywords" content="django test, python test, dasturlash testlari, django quiz uzbekistan, python quiz, backend test, django turnir">
+  <meta name="author" content="Django Quiz PRO">
+  <meta name="robots" content="index, follow">
+
+  <meta property="og:site_name" content="Django Quiz PRO">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}Django Quiz PRO — Interaktiv Dasturlash Testlari{% endblock %}">
+  <meta property="og:description" content="{% block og_description %}Python va Django bo'yicha interaktiv testlar, 1v1 bellashuvlar va haftalik turnirlar.{% endblock %}">
+  <meta property="og:url" content="https://django-quiz-pro.onrender.com{{ request.path }}">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Django Quiz PRO — Interaktiv Dasturlash Testlari">
+  <meta name="twitter:description" content="Python va Django bo'yicha bilimingizni sinab ko'ring va reytingda yetakchi bo'ling.">
+
+  <link rel="canonical" href="https://django-quiz-pro.onrender.com{{ request.path }}">
+  {% block google_verification %}{% endblock %}
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Django Quiz PRO",
+    "url": "https://django-quiz-pro.onrender.com",
+    "description": "Python va Django dasturchilari uchun interaktiv test platformasi",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "All"
+  }
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
