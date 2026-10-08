@@ -65,6 +65,13 @@
       {% endif %}
     </div>
 
+    {% if turnstile_site_key %}
+      <div style="margin: 1.25rem 0 0.5rem; display: flex; justify-content: center;">
+        <div class="cf-turnstile" data-sitekey="{{ turnstile_site_key }}" data-theme="dark"></div>
+      </div>
+      <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    {% endif %}
+
     <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
       Ro'yxatdan o'tish
     </button>

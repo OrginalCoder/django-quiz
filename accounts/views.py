@@ -1,3 +1,4 @@
+import os
 import time
 from datetime import date
 from django.views.generic import CreateView, TemplateView
@@ -12,6 +13,7 @@ from .forms import UzbekUserCreationForm, UzbekAuthenticationForm
 from quiz.models import Category, UserMistake, DailyChallengeAttempt
 from leaderboard.models import UserScore
 from battle.models import BattleRoom
+from .turnstile import verify_turnstile, get_client_ip
 
 
 class RegisterView(CreateView):
@@ -19,7 +21,16 @@ class RegisterView(CreateView):
     template_name = "accounts/register.html"
     success_url = reverse_lazy("accounts:dashboard")
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["turnstile_site_key"] = os.environ.get("CLOUDFLARE_TURNSTILE_SITE_KEY", "")
+        return context
+
     def form_valid(self, form):
+        token = self.request.POST.get("cf-turnstile-response")
+        if not verify_turnstile(token, get_client_ip(self.request)):
+            form.add_error(None, "Xavfsizlik tekshiruvi (Captcha) muvaffaqiyatsiz bo'ldi. Qayta urinib ko'ring.")
+            return self.form_invalid(form)
         user = form.save()
         login(self.request, user)
         messages.success(self.request, f"Xush kelibsiz, {user.username}! Ro'yxatdan muvaffaqiyatli o'tdingiz.")
@@ -31,6 +42,11 @@ class UserLoginView(LoginView):
     template_name = "accounts/login.html"
     redirect_authenticated_user = True
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["turnstile_site_key"] = os.environ.get("CLOUDFLARE_TURNSTILE_SITE_KEY", "")
+        return context
+
     def dispatch(self, request, *args, **kwargs):
         lock_until = request.session.get("login_locked_until", 0)
         now = time.time()
@@ -41,6 +57,10 @@ class UserLoginView(LoginView):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        token = self.request.POST.get("cf-turnstile-response")
+        if not verify_turnstile(token, get_client_ip(self.request)):
+            form.add_error(None, "Xavfsizlik tekshiruvi (Captcha) muvaffaqiyatsiz bo'ldi. Qayta urinib ko'ring.")
+            return self.form_invalid(form)
         self.request.session["login_failed_attempts"] = 0
         self.request.session["login_locked_until"] = 0
         messages.success(self.request, f"Xush kelibsiz, {form.get_user().username}!")

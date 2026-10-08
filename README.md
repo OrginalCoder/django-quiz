@@ -80,6 +80,8 @@ O'sha Web Service sahifasidagi **Environment Variables** bo'limiga o'ting va quy
 | `GOOGLE_CLIENT_ID` | Google Cloud Console Client ID | Google orqali kirish uchun |
 | `GOOGLE_CLIENT_SECRET` | Google Cloud Console Client Secret | Google OAuth maxfiy kaliti |
 | `GEMINI_API_KEY` | Gemini API kalitingiz | AI tavsiyalari va savollar tahlili uchun |
+| `CLOUDFLARE_TURNSTILE_SITE_KEY` | (Ixtiyoriy) Cloudflare Turnstile Site Key | Captcha vidjeti uchun |
+| `CLOUDFLARE_TURNSTILE_SECRET_KEY` | (Ixtiyoriy) Cloudflare Turnstile Secret Key | Captcha server tekshiruvi uchun |
 
 Sozlamalarni kiritgach, **Create Web Service** (yoki **Save Changes**) tugmasini bosing.
 
