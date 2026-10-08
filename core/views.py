@@ -43,3 +43,8 @@ def sitemap_xml(request):
     xml.append('</urlset>')
     return HttpResponse("\n".join(xml), content_type="application/xml")
 
+
+def google_verify_html(request):
+    return HttpResponse("google-site-verification: google55cd58a4ca726072.html", content_type="text/html")
+
+
